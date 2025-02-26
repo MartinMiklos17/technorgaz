@@ -7,7 +7,6 @@ use App\Models\Scopes\CompanyScope;
 class Invitation extends Model
 {
     protected $fillable = [
-        'company_id',
         'email',
         'invitation_token',
         'accepted_at',

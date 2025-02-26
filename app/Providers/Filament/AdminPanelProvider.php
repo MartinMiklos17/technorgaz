@@ -18,12 +18,14 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Registration;
+use Filament\Navigation\MenuItem;
 
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)//can make any relation record on view page
             ->default()
             ->id('admin')
             ->path('admin')
@@ -32,6 +34,12 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->profile()
             ->emailVerification()
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Felhasználó meghívása')
+                    ->icon('heroicon-o-user-plus')
+                    ->url(fn () => route('filament.admin.pages.invite-user')),
+            ])
             ->colors([
                 'primary' => Color::Amber,
             ])
