@@ -10,6 +10,8 @@ class Invitation extends Model
         'email',
         'invitation_token',
         'accepted_at',
+        'company_id',
+        'is_admin',
     ];
     protected static function booted()
     {

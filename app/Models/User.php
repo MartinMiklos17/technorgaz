@@ -27,6 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'is_admin', // Engedélyezzük a tömeges kitöltést
     ];
 
     /**

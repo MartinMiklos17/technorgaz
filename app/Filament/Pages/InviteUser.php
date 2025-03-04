@@ -19,7 +19,7 @@ class InviteUser extends Page
     protected static string $view = 'filament.pages.invite-user';
 
     public $email;
-
+    public $is_admin;
     protected function getFormSchema(): array
     {
         return [
@@ -28,6 +28,15 @@ class InviteUser extends Page
                 ->required()
                 ->email()
                 ->unique(Invitation::class, 'email'), // Biztosítja, hogy az e-mail cím egyedi legyen a meghívók között
+            Forms\Components\Select::make('is_admin')
+                ->label('Admin jogosultság')
+                ->options([
+                    0 => 'Nem',
+                    1 => 'Igen',
+                ])
+                ->default(0) // Alapértelmezés szerint "Nem"
+                ->required(),
+
         ];
     }
 
@@ -35,10 +44,13 @@ class InviteUser extends Page
     {
         $this->validate([
             'email' => 'required|email|unique:invitations,email',
+            'is_admin' => 'required|boolean',
         ]);
 
         $invitation = Invitation::create([
             'email' => $this->email,
+            'company_id' => Auth::user()->company_id,
+            'is_admin' => $this->is_admin,
             'invitation_token' => Str::random(32),
         ]);
 
