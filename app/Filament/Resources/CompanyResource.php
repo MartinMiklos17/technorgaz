@@ -20,8 +20,7 @@ class CompanyResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup='Partnercégek';
-
-    protected static ?string $recordTitleAttribute = 'Partnercégek';
+    protected static ?string $pluralModelLabel = 'Cégek';
 
     public static function form(Form $form): Form
     {

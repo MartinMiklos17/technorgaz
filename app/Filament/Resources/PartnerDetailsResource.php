@@ -24,7 +24,7 @@ class PartnerDetailsResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Partnercégek';
-    protected static ?string $recordTitleAttribute = 'Partner Adatok';
+    protected static ?string $pluralModelLabel   = 'Partner Adatok';
 
     public static function form(Form $form): Form
     {

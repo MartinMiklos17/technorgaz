@@ -38,6 +38,11 @@ class Registration extends Register
         $this->isAdmin = $invitation?->is_admin ?? false;
         $this->companyId = $invitation?->company_id ?? null;
         $this->email = $invitation?->email ?? null;
+
+        // Now explicitly fill the form state
+        $this->form->fill([
+            'email' => $this->email,
+        ]);
     }
 
     public function form(Form $form): Form
@@ -52,8 +57,7 @@ class Registration extends Register
                                 ->label(__('Email'))
                                 ->required()
                                 ->email()
-                                ->default($this->email)
-                                ->readOnly(fn () => $this->email !== null),
+                                ->default($this->email),
                             TextInput::make('name')
                                 ->label(__('Name'))
                                 ->required()
@@ -155,6 +159,7 @@ class Registration extends Register
                 'email'    => $data['email'],
                 'password' => $data['password'],
                 'company_id' => $this->companyId,
+                'is_admin' => $this->isAdmin,
             ]);
         }else{
             $user = User::create([

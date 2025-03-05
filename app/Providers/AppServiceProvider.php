@@ -9,6 +9,7 @@ use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Assets\Js;
 use Filament\Facades\Filament;
 use Filament\Support\Assets\Css;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['hu']); // also accepts a closure
+        });
         Mail::extend('mailchimp', function () {
             return new MailchimpTransport();
         });
