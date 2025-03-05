@@ -25,7 +25,7 @@ class AdminPanelProvider extends PanelProvider
 {
     protected function getUserMenuItems(): array
     {
-        if (! Auth::check() || ! Auth::user()->is_admin) {
+        if (auth()->check() && auth()->user()->is_admin) {
             return [];
         }
 
@@ -33,7 +33,7 @@ class AdminPanelProvider extends PanelProvider
             MenuItem::make()
                 ->label('Felhasználó meghívása')
                 ->icon('heroicon-o-user-plus')
-                ->url(route('filament.admin.pages.invite-user')),
+                ->url(fn () => route('filament.admin.pages.invite-user')),
         ];
     }
     public function panel(Panel $panel): Panel
@@ -53,7 +53,7 @@ class AdminPanelProvider extends PanelProvider
             ->emailVerification()
             ->userMenuItems($this->getUserMenuItems())
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#2A5325'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

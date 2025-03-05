@@ -24,6 +24,7 @@ use Filament\Forms\Components\DatePicker;
 use App\Models\Invitation;
 use App\Forms\Components\MapboxField;
 use Filament\Forms\Components\Checkbox;
+use Filament\Notifications\Notification;
 
 class Registration extends Register
 {
@@ -51,7 +52,7 @@ class Registration extends Register
             return $form->schema([
                 Wizard::make([
                     // 1. lépés: Felhasználói adatok
-                    Wizard\Step::make('User Details')
+                    Wizard\Step::make('Felhasználó adatok')
                         ->schema([
                             TextInput::make('email')
                                 ->label(__('Email'))
@@ -59,7 +60,7 @@ class Registration extends Register
                                 ->email()
                                 ->default($this->email),
                             TextInput::make('name')
-                                ->label(__('Name'))
+                                ->label(__('Név'))
                                 ->required()
                                 ->maxLength(255),
                             $this->getPasswordFormComponent(),
@@ -77,20 +78,20 @@ class Registration extends Register
             return $form->schema([
                 Wizard::make([
                     // 1. lépés: Felhasználói adatok
-                    Wizard\Step::make('User Details')
+                    Wizard\Step::make('Felhasználó adatok')
                         ->schema([
                             TextInput::make('email')
                                 ->label(__('Email'))
                                 ->default("Martin"),
                             TextInput::make('name')
-                                ->label(__('Name'))
+                                ->label(__('Név'))
                                 ->required()
                                 ->maxLength(255),
                             $this->getPasswordFormComponent(),
                             $this->getPasswordConfirmationFormComponent(),
                         ]),
                     // 2. lépés: Cégadatok
-                    Wizard\Step::make('Company Data')
+                    Wizard\Step::make('Cég Adatok')
                         ->schema([
                             $this->getCompanyNameFormComponent(),
                             $this->getCompanyCountryFormComponent(),
@@ -100,10 +101,10 @@ class Registration extends Register
                             $this->getCompanyTaxnumFormComponent(),
                         ]),
                     // 3. lépés: Térképes címválasztás (Google Maps integráció)
-                    Wizard\Step::make('Location')
+                    Wizard\Step::make('Helyszín')
                         ->schema([
                             TextInput::make('location_address')
-                                ->label(__('Location Address')),
+                                ->label(__('Helyszín')),
                             TextInput::make('latitude'),
                             TextInput::make('longitude'),
                             MapboxField::make('map')
@@ -115,7 +116,7 @@ class Registration extends Register
                                 ->columnSpan('full'),*/
                         ]),
                     //Additional data
-                    Wizard\Step::make('Additional Data')
+                    Wizard\Step::make('További Adatok')
                     ->schema([
                         $this->getClientTakeFormComponent(),
                         $this->getCompleteExecutionFormComponent(),
@@ -126,7 +127,7 @@ class Registration extends Register
                     ]),
                 ])
                 ->nextAction(
-                    fn (Action $action) => $action->label('Next step')
+                    fn (Action $action) => $action->label('Következő')
                     ->extraAttributes([
                         'onclick' => 'initMap();',
                     ])
@@ -135,7 +136,7 @@ class Registration extends Register
                 ->persistStepInQueryString()
                 ->submitAction(new HtmlString(Blade::render(<<<'BLADE'
                     <x-filament::button type="submit" size="sm" wire:submit="register">
-                        Register
+                    Regisztráció
                     </x-filament::button>
                     BLADE
                 ))),
@@ -153,6 +154,14 @@ class Registration extends Register
     {
         $data = $this->form->getState();
         $user=null;
+        if (User::where('email', $data['email'])->exists()) {
+            Notification::make()
+                ->title('Az email cím már használatban van.')
+                ->danger()
+                ->send();
+
+            return null;
+        }
         if($this->isAdmin){
             $user = User::create([
                 'name'     => $data['name'],
@@ -213,7 +222,7 @@ class Registration extends Register
     protected function getCompanyNameFormComponent(): Component
     {
         return TextInput::make('company_name')
-            ->label(__('Company Name'))
+            ->label(__('Cégnév'))
             ->maxLength(255)
             ->required();
     }
@@ -221,7 +230,7 @@ class Registration extends Register
     protected function getCompanyCountryFormComponent(): Component
     {
         return TextInput::make('company_country')
-            ->label(__('Country'))
+            ->label(__('Ország'))
             ->maxLength(255)
             ->required();
     }
@@ -229,7 +238,7 @@ class Registration extends Register
     protected function getCompanyZipFormComponent(): Component
     {
         return TextInput::make('company_zip')
-            ->label(__('Zip Code'))
+            ->label(__('Irsz'))
             ->maxLength(255)
             ->required();
     }
@@ -237,7 +246,7 @@ class Registration extends Register
     protected function getCompanyCityFormComponent(): Component
     {
         return TextInput::make('company_city')
-            ->label(__('City'))
+            ->label(__('Város'))
             ->maxLength(255)
             ->required();
     }
@@ -245,7 +254,7 @@ class Registration extends Register
     protected function getCompanyAddressFormComponent(): Component
     {
         return TextInput::make('company_address')
-            ->label(__('Address'))
+            ->label(__('Cím'))
             ->maxLength(255)
             ->required();
     }
@@ -253,7 +262,7 @@ class Registration extends Register
     protected function getCompanyTaxnumFormComponent(): Component
     {
         return TextInput::make('company_taxnum')
-            ->label(__('Tax Number'))
+            ->label(__('Adószám'))
             ->maxLength(255)
             ->required();
     }

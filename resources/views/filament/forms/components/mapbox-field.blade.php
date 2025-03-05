@@ -1,8 +1,43 @@
 <div class="container"  wire:ignore>
     <div id="geocoder" style="margin-bottom:20px; width:300px;"></div>
     <div id="map" style="width: 100%; height: 300px;"></div>
-</div>
+    <style>
+        .mapboxgl-ctrl-geocoder--icon.mapboxgl-ctrl-geocoder--icon-search {
+            position: absolute;
+            left: auto;
+            right: 10px;
+            }
 
+            .mapboxgl-ctrl-geocoder.mapboxgl-ctrl {
+            box-shadow: unset;
+            }
+
+            .mapboxgl-ctrl-geocoder--input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #111827;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            }
+
+            @media screen and (min-width: 640px) {
+            .mapboxgl-ctrl-geocoder {
+                width: 100;
+                font-size: 15px;
+                line-height: 20px;
+                max-width: unset !important;
+            }
+        }
+        .fi-logo.flex {
+            padding: 13px;
+        }
+    </style>
+</div>
 <script>
     //init map
     var map=null;
