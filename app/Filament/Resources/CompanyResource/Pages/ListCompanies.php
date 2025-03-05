@@ -13,7 +13,15 @@ class ListCompanies extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Új Cég'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Cégek';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Cégek';
     }
 }

@@ -30,7 +30,6 @@ class PartnerDetails extends Model
         'client_take' => 'boolean',
         'complete_execution' => 'boolean',
     ];
-    // Ha kapcsolódik a Company modellhez, akkor definiálhatod a kapcsolatot:
     public function company()
     {
         return $this->belongsTo(Company::class);

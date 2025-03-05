@@ -13,8 +13,29 @@ class EditPartnerDetails extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\ViewAction::make()->label('Vissza'),
+            Actions\DeleteAction::make()->label('Törlés'),
+        ];
+    }
+    public function getHeading(): string
+    {
+        return 'Partner Adatok szerkesztése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Partner Adatok szerkesztése';
+    }
+    protected function getFormActions(): array
+    {
+        return [
+            Actions\Action::make('save')
+                ->label('Mentés')
+                ->action('save')
+                ->color('primary'),
+
+            Actions\Action::make('cancel')
+                ->label('Mégse')
+                ->url($this->getResource()::getUrl('index')),
         ];
     }
 }

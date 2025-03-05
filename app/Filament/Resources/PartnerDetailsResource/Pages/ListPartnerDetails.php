@@ -13,7 +13,15 @@ class ListPartnerDetails extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Új Partner'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Partner Adatok';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Partner Adatok';
     }
 }

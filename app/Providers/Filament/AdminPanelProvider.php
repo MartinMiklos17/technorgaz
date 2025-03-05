@@ -19,12 +19,29 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Registration;
 use Filament\Navigation\MenuItem;
+use Illuminate\Support\Facades\Auth;
 
 class AdminPanelProvider extends PanelProvider
 {
+    protected function getUserMenuItems(): array
+    {
+        if (! Auth::check() || ! Auth::user()->is_admin) {
+            return [];
+        }
+
+        return [
+            MenuItem::make()
+                ->label('Felhasználó meghívása')
+                ->icon('heroicon-o-user-plus')
+                ->url(route('filament.admin.pages.invite-user')),
+        ];
+    }
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->brandName('Technorgaz')
+            ->brandLogo(asset('images/logo.png'))
+            ->brandLogoHeight('5rem')
             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)//can make any relation record on view page
             ->default()
             ->id('admin')
@@ -34,12 +51,7 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->profile()
             ->emailVerification()
-            ->userMenuItems([
-                MenuItem::make()
-                    ->label('Felhasználó meghívása')
-                    ->icon('heroicon-o-user-plus')
-                    ->url(fn () => route('filament.admin.pages.invite-user')),
-            ])
+            ->userMenuItems($this->getUserMenuItems())
             ->colors([
                 'primary' => Color::Amber,
             ])

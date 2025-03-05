@@ -13,7 +13,15 @@ class ViewCompany extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            Actions\EditAction::make()->label('Szerkesztés'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Cég Megtekintése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Cég Megtekintése';
     }
 }

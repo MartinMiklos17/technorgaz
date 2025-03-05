@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\UserResource\RelationManagers\PartnerDetailsRelationManager;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
@@ -13,8 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers\CompanyRelationManager;
+use App\Models\PartnerDetails;
 use Filament\Tables\Columns\CheckboxColumn;
-
+use App\Models\Company;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -25,6 +27,14 @@ class UserResource extends Resource
     protected function getCreatedNotificationTitle(): ?string
     {
         return 'Felhasználó létrehozva!';
+    }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->check() && auth()->user()->is_admin;
+    }
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
     }
     public static function form(Form $form): Form
     {
@@ -41,10 +51,10 @@ class UserResource extends Resource
 
                 // A cégkapcsolat kiválasztása (feltételezve, hogy a user tábla 'company_id' kulcsot használ)
                 Forms\Components\Select::make('company_id')
-                    ->label('Company')
-                    ->relationship('company', 'company_name')  // 'company_name' a megjelenítendő mező a companies táblából
-                    ->searchable()
-                    ->label('CégNév'),
+                    ->required()
+                    ->options(Company::all()->pluck('company_name', 'id')->toArray())
+                    ->label('Kapcsolódó Cég')
+                    ->searchable(),
 
                 // Admin szerepkör
                 Forms\Components\Toggle::make('is_admin')
@@ -86,8 +96,8 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()->label('Részletek'),
+                Tables\Actions\EditAction::make()->label('Szerkesztés'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -100,6 +110,7 @@ class UserResource extends Resource
     {
         return [
             CompanyRelationManager::class,
+            PartnerDetailsRelationManager::class,
         ];
     }
 
@@ -107,9 +118,9 @@ class UserResource extends Resource
     {
         return [
             'index' => Pages\ListUsers::route('/'),
-            //'create' => Pages\CreateUser::route('/create'),
+            'create' => Pages\CreateUser::route('/create'),
             'view' => Pages\ViewUser::route('/{record}'),
-            //'edit' => Pages\EditUser::route('/{record}/edit'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

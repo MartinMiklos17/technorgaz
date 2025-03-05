@@ -22,43 +22,61 @@ class PartnerDetailsResource extends Resource
 {
     protected static ?string $model = PartnerDetails::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-face-smile';
     protected static ?string $navigationGroup = 'Partnercégek';
     protected static ?string $pluralModelLabel   = 'Partner Adatok';
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->check() && auth()->user()->is_admin;
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label('Felhasználó')
                     ->required()
                     ->options(User::all()->pluck('name', 'id')->toArray())
                     ->searchable(),
 
                 Forms\Components\Select::make('company_id')
+                    ->label('Cég')
                     ->required()
                     ->options(Company::all()->pluck('company_name', 'id')->toArray())
                     ->searchable(),
 
-                Forms\Components\Toggle::make('client_take')->required(),
-                Forms\Components\Toggle::make('complete_execution')->required(),
+                Forms\Components\Toggle::make('client_take')->required()
+                    ->label('Ügyfél fogadása'),
+                Forms\Components\Toggle::make('complete_execution')->required()
+                    ->label('Teljes kivitelezés'),
 
                 Forms\Components\TextInput::make('gas_installer_license')
+                    ->label('Gázszerelő engedély')
                     ->maxLength(255)
                     ->default(null),
 
-                Forms\Components\DatePicker::make('license_expiration'),
+                Forms\Components\DatePicker::make('license_expiration')
+                ->label('Engedély lejárata')
+                    ->required(),
 
                 Forms\Components\TextInput::make('contact_person')
+                    ->label('Kapcsolattartó')
                     ->maxLength(255)
                     ->default(null),
 
                 Forms\Components\TextInput::make('phone')
+                    ->label('Telefonszám')
                     ->tel()
                     ->maxLength(255)
                     ->default(null),
 
                 Forms\Components\TextInput::make('location_address')
+                    ->label('Cím')
                     ->id('data.location_address')
                     ->label(__('Cím'))
                     ->live()
@@ -145,11 +163,11 @@ class PartnerDetailsResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()->label('Részletek'),
+                Tables\Actions\EditAction::make()->label('Szerkesztés'),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make()->label('Törlés'),
             ]);
     }
 

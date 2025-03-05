@@ -13,7 +13,15 @@ class ViewPartnerDetails extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            Actions\EditAction::make()->label('Szerkesztés'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Partner Adatok Megtekintése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Partner Adatok Megtekintése';
     }
 }

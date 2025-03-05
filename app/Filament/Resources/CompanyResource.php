@@ -13,39 +13,54 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use App\Filament\Resources\CompanyResource\RelationManagers\PartnerDetailsRelationManager;
 class CompanyResource extends Resource
 {
     protected static ?string $model = Company::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-building-office';
     protected static ?string $navigationGroup='Partnercégek';
     protected static ?string $pluralModelLabel = 'Cégek';
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+    public static function shouldRegisterNavigation(): bool
+    {
+        return auth()->check() && auth()->user()->is_admin;
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
+                    ->label('Felhasználó')
                     ->required()
                     ->options(User::all()->pluck('name', 'id')->toArray())
                     ->searchable(),
                 Forms\Components\TextInput::make('company_name')
+                    ->label('Cég neve')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_country')
+                    ->label('Ország')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_zip')
+                    ->label('Irányítószám')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_city')
+                    ->label('Város')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_address')
+                    ->label('Cím')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_taxnum')
+                    ->label('Adószám')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -83,20 +98,23 @@ class CompanyResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make()->label('Részletek'),
+                Tables\Actions\EditAction::make()->label('Szerkesztés'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                    Tables\Actions\DeleteBulkAction::make()->label('Törlés')                  ->modalSubmitActionLabel('Mentés')
+                    ->modalHeading('Partner Adatok Törlése')
+                    ->modalDescription('Biztosan törölni szeretné a kiválasztott Céget?')
+                    ->modalcancelActionLabel('Mégse'),
+                ])->label('Törlés')
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            PartnerDetailsRelationManager::class,
         ];
     }
 

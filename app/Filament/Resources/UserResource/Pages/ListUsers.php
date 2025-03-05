@@ -13,7 +13,15 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Új Felhasználó'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Felhasználók';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Felhasználók';
     }
 }
