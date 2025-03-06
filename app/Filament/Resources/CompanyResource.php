@@ -71,25 +71,35 @@ class CompanyResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
+                    ->label('Felhasználó')
+                    ->searchable()
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('company_name')
+                    ->label('Cég neve')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company_country')
+                    ->label('Ország')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company_zip')
+                    ->label('Irányítószám')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company_city')
+                    ->label('Város')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company_address')
+                    ->label('Cím')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('company_taxnum')
+                    ->label('Adószám')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Létrehozva')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Módosítva')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

@@ -30,7 +30,14 @@ class InviteUser extends Page
     {
         return 'invite-user';
     }
-
+    public function getHeading(): string
+    {
+        return 'Új Felhasználó meghívása';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Új felhasználó meghívása';
+    }
     protected function getFormSchema(): array
     {
         return [

@@ -51,10 +51,10 @@ class UserResource extends Resource
 
                 // A cégkapcsolat kiválasztása (feltételezve, hogy a user tábla 'company_id' kulcsot használ)
                 Forms\Components\Select::make('company_id')
-                    ->required()
-                    ->options(Company::all()->pluck('company_name', 'id')->toArray())
-                    ->label('Kapcsolódó Cég')
-                    ->searchable(),
+                ->label('Cég')
+                ->required()
+                ->options(Company::all()->pluck('company_name', 'id')->toArray())
+                ->searchable(),
 
                 // Admin szerepkör
                 Forms\Components\Toggle::make('is_admin')

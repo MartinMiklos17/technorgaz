@@ -8,13 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\CustomVerifyEmail;
+use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    public function sendEmailVerificationNotification()
-	{
-		$this->notify(new CustomVerifyEmail);
-	}
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -27,7 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'is_admin', // Engedélyezzük a tömeges kitöltést
+        'is_admin',
+        'company_id',
     ];
 
     /**
@@ -63,4 +61,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(PartnerDetails::class);
     }
+    public function sendEmailVerificationNotification()
+	{
+		$this->notify(new CustomVerifyEmail);
+	}
+    public function sendPasswordResetNotification($token)
+    {
+        dd("Saját CustomResetPassword notification meghívva", $token);
+        $this->notify(new \App\Notifications\CustomResetPassword($token));
+    }
+
 }
