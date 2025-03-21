@@ -65,9 +65,11 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		$this->notify(new CustomVerifyEmail);
 	}
+    public function preferredLocale() {
+        return $this->locale;
+    }
     public function sendPasswordResetNotification($token)
     {
-        dd("Saját CustomResetPassword notification meghívva", $token);
         $this->notify(new \App\Notifications\CustomResetPassword($token));
     }
 

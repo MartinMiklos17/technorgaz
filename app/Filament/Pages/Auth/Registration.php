@@ -105,8 +105,10 @@ class Registration extends Register
                         ->schema([
                             TextInput::make('location_address')
                                 ->label(__('Helyszín')),
-                            TextInput::make('latitude'),
-                            TextInput::make('longitude'),
+                            TextInput::make('latitude')
+                                ->label("Szélesség"),
+                            TextInput::make('longitude')
+                                ->label("Hosszúság"),
                             MapboxField::make('map')
                             ->label(__('Térkép')),/*
                             Placeholder::make('map')
