@@ -25,6 +25,10 @@ class PartnerDetails extends Model
         'location_address',
         'latitude',
         'longitude',
+
+        'gas_installer_license_front_image',
+        'gas_installer_license_back_image',
+        'flue_gas_analyzer_doc_image',
     ];
     protected $casts = [
         'client_take' => 'boolean',

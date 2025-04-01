@@ -25,10 +25,26 @@ class PartnerDetailsRelationManager extends RelationManager
         return $form
             ->schema([
                 Select::make('user_id')
-                    ->label('Felhasználó')
-                    ->required()
-                    ->options(User::all()->pluck('name', 'id')->toArray())
-                    ->searchable(),
+                ->label('Felhasználó')
+                ->required()
+                ->searchable()
+                // Egyszerűen elhagyjuk a típusdeklarációt:
+                ->options(function (callable $get, $record) {
+                    // $record itt a PartnerDetails példány
+                    $query = User::query();
+
+                    if ($record && $record->exists) {
+                        // Szerkesztés
+                        $currentUserId = $record->user_id;
+                        $query->where('id', $currentUserId)
+                              ->orWhereDoesntHave('partnerDetails');
+                    } else {
+                        // Létrehozás
+                        $query->whereDoesntHave('partnerDetails');
+                    }
+
+                    return $query->pluck('name', 'id');
+                }),
 
                 Select::make('company_id')
                     ->label('Cég')
@@ -152,9 +168,11 @@ class PartnerDetailsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()->label('Új')
+                /*
+                Egy céghez több partner adat is tartozhat
                 ->visible(fn (\Filament\Resources\RelationManagers\RelationManager $livewire) =>
                     ! $livewire->getRelationship()->exists()
-                ),
+                )*/,
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

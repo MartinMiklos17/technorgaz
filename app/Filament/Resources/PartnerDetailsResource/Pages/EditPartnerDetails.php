@@ -31,7 +31,15 @@ class EditPartnerDetails extends EditRecord
             Actions\Action::make('save')
                 ->label('Mentés')
                 ->action('save')
-                ->color('primary'),
+                ->color('primary')
+                ->extraAttributes([
+                    'wire:loading.attr' => 'disabled',
+                    'wire:target' => '
+                        data.gas_installer_license_front_image,
+                        data.gas_installer_license_back_image,
+                        data.flue_gas_analyzer_doc_image
+                    ',
+                ]),
 
             Actions\Action::make('cancel')
                 ->label('Mégse')

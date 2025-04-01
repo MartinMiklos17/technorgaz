@@ -29,7 +29,14 @@ return [
     */
 
     'disks' => [
-
+        'partner_documents_upload' => [
+            'driver' => 'local',
+            // Ide kerülnek a fájlok, pl. /var/www/laravel/public/uploads/partner_documents
+            'root' => public_path('uploads/partner_documents'),
+            // URL prefix: https://domain.tld/uploads/partner_documents
+            'url' => env('APP_URL').'/uploads/partner_documents',
+            'visibility' => 'public',
+        ],
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),

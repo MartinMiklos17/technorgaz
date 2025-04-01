@@ -20,13 +20,13 @@ class Company extends Model
         'company_taxnum',
     ];
 
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(User::class,  'company_id');
     }
 
     public function partnerDetails()
     {
-        return $this->hasOne(PartnerDetails::class);
+        return $this->hasMany(PartnerDetails::class,  'company_id');
     }
 }

@@ -14,6 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CompanyResource\RelationManagers\PartnerDetailsRelationManager;
+use App\Filament\Resources\CompanyResource\RelationManagers\UsersRelationManager;
 class CompanyResource extends Resource
 {
     protected static ?string $model = Company::class;
@@ -125,6 +126,7 @@ class CompanyResource extends Resource
     {
         return [
             PartnerDetailsRelationManager::class,
+            UsersRelationManager::class,
         ];
     }
 

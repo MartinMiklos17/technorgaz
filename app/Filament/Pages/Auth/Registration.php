@@ -25,6 +25,13 @@ use App\Models\Invitation;
 use App\Forms\Components\MapboxField;
 use Filament\Forms\Components\Checkbox;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Str;
+use Filament\Forms\Components\TextInput\Mask;
+use Filament\Support\RawJs;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Facades\Storage;
+
 
 class Registration extends Register
 {
@@ -93,6 +100,55 @@ class Registration extends Register
                     // 2. lépés: Cégadatok
                     Wizard\Step::make('Cég Adatok')
                         ->schema([
+                            Select::make('company_search')
+                            ->label('Cég / Adószám kereső')
+                            ->searchable()
+                            // Ezzel határozzuk meg, milyen találatokat adjon beíráskor:
+                            ->getSearchResultsUsing(function (string $search) {
+                                // Az $search tartalmazza, amit a user beírt.
+                                // Keresünk cégnevet VAGY adószámot tartalmazó rekordokat.
+                                return Company::query()
+                                    ->where('company_name', 'like', "%{$search}%")
+                                    ->orWhere('company_taxnum', 'like', "%{$search}%")
+                                    ->limit(10) // korlátozzuk a találatok számát
+                                    ->pluck('company_name', 'id');
+                            })
+                            // Hogyan jelenjen meg a kiválasztott opció szövege a mezőben
+                            ->getOptionLabelUsing(function ($value) {
+                                $company = Company::find($value);
+                                if (! $company) {
+                                    return $value;
+                                }
+
+                                // Például: "Cégnév (Adószám)"
+                                return $company->company_name . ' (' . $company->company_taxnum . ')';
+                            })
+                            ->reactive() // hogy minden változás után lefusson az afterStateUpdated
+                            ->afterStateUpdated(function (callable $set, $state) {
+                                // $state = a kiválasztott cég ID-je (vagy null, ha törli)
+                                if ($company = Company::find($state)) {
+                                    // Töltsük fel a céghez tartozó mezőket
+                                    $set('company_name', $company->company_name);
+                                    $set('company_taxnum', $company->company_taxnum);
+                                    // Pl. cím is:
+                                    $set('company_address', $company->company_address);
+                                    $set('company_zip', $company->company_zip);
+                                    $set('company_city', $company->company_city);
+                                    $set('company_country', $company->company_country);
+                                } else {
+                                    // Ha törlik a kiválasztást, nullázhatjuk a mezőket
+                                    $set('company_name', null);
+                                    $set('company_taxnum', null);
+                                    $set('company_address', null);
+                                    $set('company_zip', null);
+                                    $set('company_city', null);
+                                    $set('company_country', null);
+                                    // ...
+                                }
+                            })
+                            // Ezt pl. nem szeretnéd menteni a modelbe, így:
+                            ->dehydrated(false) // nem kerül mentésre
+                            ->placeholder('Írj be cégnevet vagy adószámot...'),
                             $this->getCompanyNameFormComponent(),
                             $this->getCompanyCountryFormComponent(),
                             $this->getCompanyZipFormComponent(),
@@ -126,6 +182,10 @@ class Registration extends Register
                         $this->getLicenseExpirationFormComponent(),
                         $this->getContactPersonFormComponent(),
                         $this->getPhoneFormComponent(),
+                        $this->getGasLicenceFrontImageUploadSectionFormPartnerDetails(),
+                        $this->getGasLicenceBackImageUploadSectionFormPartnerDetails(),
+                        $this->getGasAnalyzerDocImageUploadSectionFormPartnerDetails(),
+
                     ]),
                 ])
                 ->nextAction(
@@ -179,7 +239,29 @@ class Registration extends Register
                 'password' => $data['password'],
 
             ]);
-                // Cégadatok (beleértve a térkép adatait) létrehozása és hozzárendelése a felhasználóhoz
+            $existingCompany = Company::firstWhere('company_taxnum', $data['company_taxnum']);
+
+            $company=null;
+
+            if ($existingCompany) {
+                // Már létezik egy cég ezzel az adószámmal,
+                // használjuk ezt, ne hozzunk létre újat.
+                $company = $existingCompany;
+
+                // Opcionálisan: frissíthetjük a meglévő céget az újonnan beírt adatokkal,
+                // ha *mindenképpen* mindig az új adatokat akarjuk megőrizni.
+                // Ha inkább a régi adatokat hagynád érintetlenül, ezt a részt kihagyhatod.
+                /*
+                $company->update([
+                    'company_name'    => $data['company_name']   ?? $company->company_name,
+                    'company_country' => $data['company_country'] ?? $company->company_country,
+                    'company_zip'     => $data['company_zip']     ?? $company->company_zip,
+                    'company_city'    => $data['company_city']    ?? $company->company_city,
+                    'company_address' => $data['company_address'] ?? $company->company_address,
+                ]);
+                */
+            } else {
+                // Ha nincs még ilyen adószámú cég, akkor létrehozzuk
                 $company = Company::create([
                     'user_id'          => $user->id,
                     'company_name'     => $data['company_name'],
@@ -189,24 +271,73 @@ class Registration extends Register
                     'company_address'  => $data['company_address'],
                     'company_taxnum'   => $data['company_taxnum'],
                 ]);
+            }
+            // 3) Fájlok átnevezése, ha feltöltöttek valamit
+            $timestamp = time(); // másodpercre pontos egyediség
+            $userId = $user->id;
 
-                // További adatok hozzáadása a partnerhez
-                $partnerDetails = PartnerDetails::create([
-                    'user_id'          => $user->id,
-                    'company_id'          => $company->id,
-                    'client_take'           => $data['client_take'],
-                    'complete_execution'    => $data['complete_execution'],
-                    'gas_installer_license' => $data['gas_installer_license'],
-                    'license_expiration'    => $data['license_expiration'],
-                    'contact_person'        => $data['contact_person'],
-                    'phone'                 => $data['phone'],
-                    'location_address'      => $data['location_address'],
-                    'latitude'              => $data['latitude'],
-                    'longitude'             => $data['longitude'],
-                ]);
-                // Frissítsük a felhasználó rekordját, ha a User modelled tartalmaz company_id mezőt
-                $user->update(['company_id' => $company->id]);
-                $user->update(['partner_details_id' => $partnerDetails->id]);
+            $userDir = "user_{$userId}";
+
+            // Előbb hozd létre, ha nem létezik:
+            if (! Storage::disk('partner_documents_upload')->exists($userDir)) {
+                Storage::disk('partner_documents_upload')->makeDirectory($userDir);
+            }
+            // 1) Előlap
+            if (!empty($data['gas_installer_license_front_image'])) {
+                $oldPath = $data['gas_installer_license_front_image'];
+                // Pl. "partner_documents/tmp/IMG_1234.jpg"
+
+                $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
+                $newName = "user_{$userId}/gas_installer_license_front_image_{$timestamp}.{$extension}";
+
+                // Létrehozzuk a user_{id} almappát és mozgatjuk a fájlt
+                Storage::disk('partner_documents_upload')->move($oldPath, $newName);
+
+                // A $data-ban felülírjuk az új elérési utat
+                $data['gas_installer_license_front_image'] = $newName;
+            }
+
+            // 2) Hátlap
+            if (!empty($data['gas_installer_license_back_image'])) {
+                $oldPath = $data['gas_installer_license_back_image'];
+                $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
+                $newName = "user_{$userId}/gas_installer_license_back_image_{$timestamp}.{$extension}";
+
+                Storage::disk('partner_documents_upload')->move($oldPath, $newName);
+                $data['gas_installer_license_back_image'] = $newName;
+            }
+
+            // 3) Füstgázmérő
+            if (!empty($data['flue_gas_analyzer_doc_image'])) {
+                $oldPath = $data['flue_gas_analyzer_doc_image'];
+                $extension = pathinfo($oldPath, PATHINFO_EXTENSION);
+                $newName = "user_{$userId}/flue_gas_analyzer_doc_image_{$timestamp}.{$extension}";
+
+                Storage::disk('partner_documents_upload')->move($oldPath, $newName);
+                $data['flue_gas_analyzer_doc_image'] = $newName;
+            }
+
+            // További adatok hozzáadása a partnerhez
+            $partnerDetails = PartnerDetails::create([
+                'user_id'          => $user->id,
+                'company_id'          => $company->id,
+                'client_take'           => $data['client_take'],
+                'complete_execution'    => $data['complete_execution'],
+                'gas_installer_license' => $data['gas_installer_license'],
+                'license_expiration'    => $data['license_expiration'],
+                'contact_person'        => $data['contact_person'],
+                'phone'                 => $data['phone'],
+                'location_address'      => $data['location_address'],
+                'latitude'              => $data['latitude'],
+                'longitude'             => $data['longitude'],
+
+                'gas_installer_license_front_image' => $data['gas_installer_license_front_image'] ?? null,
+                'gas_installer_license_back_image'  => $data['gas_installer_license_back_image'] ?? null,
+                'flue_gas_analyzer_doc_image'       => $data['flue_gas_analyzer_doc_image'] ?? null,
+            ]);
+            // Frissítsük a felhasználó rekordját, ha a User modelled tartalmaz company_id mezőt
+            $user->update(['company_id' => $company->id]);
+            $user->update(['partner_details_id' => $partnerDetails->id]);
         }
 
         auth()->login($user);
@@ -261,10 +392,14 @@ class Registration extends Register
             ->required();
     }
 
-    protected function getCompanyTaxnumFormComponent(): Component
+    protected function getCompanyTaxnumFormComponent(): TextInput
     {
         return TextInput::make('company_taxnum')
             ->label(__('Adószám'))
+            // Pl. Filament 2.x / 3.x mask beállítás
+            ->mask('99999999-9-99')
+            // A 8-1-2 formátumot regexszel ellenőrizheted
+            ->rule('regex:/^\d{8}-\d-\d{2}$/')
             ->maxLength(255)
             ->required();
     }
@@ -287,9 +422,20 @@ class Registration extends Register
     protected function getGasInstallerLicenseFormComponent(): Component
     {
         return TextInput::make('gas_installer_license')
+            ->prefix('G/')
+            ->numeric()
             ->label(__('Gázszerelő igazolvány száma'))
             ->maxLength(255)
-            ->required();
+            ->required()
+            ->formatStateUsing(function ($state) {
+                return $state
+                    ? Str::of($state)->replace('G/', '') // "G/12345" -> "12345"
+                    : null;
+            })
+            // Amikor mentjük a mezőt (Form->DB), újra elé tesszük a prefixet
+            ->dehydrateStateUsing(function ($state) {
+                return 'G/' . $state; // "12345" -> "G/12345"
+            });
     }
 
     protected function getLicenseExpirationFormComponent(): Component
@@ -315,4 +461,87 @@ class Registration extends Register
             ->maxLength(50)
             ->required();
     }
+/************************************************************
+ * 1) Előlap: gas_installer_license_front_image
+ ************************************************************/
+protected function getGasLicenceFrontImageUploadSectionFormPartnerDetails(): Component
+{
+    return FileUpload::make('gas_installer_license_front_image')
+        ->label('Gázszerelő igazolvány - Előlap')
+        // Az a diszk, amit a config/filesystems.php-ban definiáltál,
+        // pl. 'partner_documents_upload' => [ 'root' => public_path('uploads/partner_documents'), ... ]
+        ->disk('partner_documents_upload')
+        ->acceptedFileTypes(['image/*','application/pdf'])
+        ->imagePreviewHeight('200')
+        ->openable()      // Filament 3.x: "Megnyitás" gomb
+        ->downloadable()  // "Letöltés" gomb
+        ->previewable()   // Előnézet (képekhez)
+        ->deletable(true)
+        ->hint('Kép vagy PDF')
+        // Ha a felhasználótól függő mappába akarod pakolni
+        ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
+            // Ha Szerkesztésnél ($record) már ismert a user_id
+            if ($record && $record->user_id) {
+                return 'user_' . $record->user_id;
+            }
+            // Ha Új rekordnál a form-on van egy user_id mező
+            $formUserId = $get('user_id');
+            return $formUserId
+                ? 'user_' . $formUserId
+                : 'tmp'; // Alapesetben "tmp" alkönyvtár
+        });
+}
+
+/************************************************************
+ * 2) Hátlap: gas_installer_license_back_image
+ ************************************************************/
+protected function getGasLicenceBackImageUploadSectionFormPartnerDetails(): Component
+{
+    return FileUpload::make('gas_installer_license_back_image')
+        ->label('Gázszerelő igazolvány - Hátlap')
+        ->disk('partner_documents_upload')
+        ->acceptedFileTypes(['image/*','application/pdf'])
+        ->imagePreviewHeight('200')
+        ->openable()
+        ->downloadable()
+        ->previewable()
+        ->deletable(true)
+        ->hint('Kép vagy PDF')
+        ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
+            if ($record && $record->user_id) {
+                return 'user_' . $record->user_id;
+            }
+            $formUserId = $get('user_id');
+            return $formUserId
+                ? 'user_' . $formUserId
+                : 'tmp';
+        });
+}
+
+/************************************************************
+ * 3) Füstgázmérő dok/számla: flue_gas_analyzer_doc_image
+ ************************************************************/
+protected function getGasAnalyzerDocImageUploadSectionFormPartnerDetails(): Component
+{
+    return FileUpload::make('flue_gas_analyzer_doc_image')
+        ->label('Füstgázmérő dokumentum / számla')
+        ->disk('partner_documents_upload')
+        ->acceptedFileTypes(['image/*','application/pdf'])
+        ->imagePreviewHeight('200')
+        ->openable()
+        ->downloadable()
+        ->previewable()
+        ->deletable(true)
+        ->hint('Kép vagy PDF')
+        ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
+            if ($record && $record->user_id) {
+                return 'user_' . $record->user_id;
+            }
+            $formUserId = $get('user_id');
+            return $formUserId
+                ? 'user_' . $formUserId
+                : 'tmp';
+        });
+}
+
 }
