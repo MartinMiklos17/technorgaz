@@ -25,7 +25,7 @@ class EditPartnerDetails extends EditRecord
     {
         return 'Partner Adatok szerkesztése';
     }
-    protected function getFormActions(): array
+    /*protected function getFormActions(): array
     {
         return [
             Actions\Action::make('save')
@@ -45,5 +45,5 @@ class EditPartnerDetails extends EditRecord
                 ->label('Mégse')
                 ->url($this->getResource()::getUrl('index')),
         ];
-    }
+    }*/
 }

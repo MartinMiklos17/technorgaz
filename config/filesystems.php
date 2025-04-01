@@ -29,6 +29,18 @@ return [
     */
 
     'disks' => [
+        'product_datasheets' => [
+            'driver' => 'local',
+            'root' => public_path('uploads/product_datasheets'),
+            'url' => env('APP_URL').'/uploads/product_datasheets',
+            'visibility' => 'public',
+        ],
+        'product_photos' => [
+            'driver' => 'local',
+            'root' => public_path('uploads/product_photos'),
+            'url' => env('APP_URL').'/uploads/product_photos',
+            'visibility' => 'public',
+        ],
         'partner_documents_upload' => [
             'driver' => 'local',
             // Ide kerülnek a fájlok, pl. /var/www/laravel/public/uploads/partner_documents

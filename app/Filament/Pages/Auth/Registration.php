@@ -32,6 +32,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
 
+use Illuminate\Support\Facades\Notification;
 
 class Registration extends Register
 {
@@ -197,10 +198,18 @@ class Registration extends Register
                 ->extraAttributes(['class' => 'w-full'])
                 ->persistStepInQueryString()
                 ->submitAction(new HtmlString(Blade::render(<<<'BLADE'
-                    <x-filament::button type="submit" size="sm" wire:submit="register">
-                    Regisztráció
+                    <x-filament::button
+                        type="submit"
+                        size="sm"
+                        wire:submit="register"
+                        wire:loading.attr="disabled"
+                        wire:target="
+                            data.gas_installer_license_front_image,
+                            data.gas_installer_license_back_image,
+                            data.flue_gas_analyzer_doc_image">
+                        Regisztráció
                     </x-filament::button>
-                    BLADE
+                BLADE
                 ))),
             ]);
         }
@@ -348,7 +357,10 @@ class Registration extends Register
             $notification->url = Filament::getVerifyEmailUrl($user);
             $user->notify($notification);
         }
+        // Email értesítés adminoknak új regisztrációról
+        $adminUsers = User::where('is_admin', true)->get();
 
+        Notification::send($adminUsers, new \App\Notifications\NewUserRegisteredNotification($user));
         return app(RegistrationResponse::class);
     }
 

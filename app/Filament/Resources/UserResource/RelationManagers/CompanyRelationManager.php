@@ -57,11 +57,6 @@ class CompanyRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Felhasználó')
-                    ->numeric()
-                    ->sortable()
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('company_name')
                     ->label('Cégnév')
                     ->searchable(),
