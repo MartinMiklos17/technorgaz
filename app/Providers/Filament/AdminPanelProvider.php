@@ -21,6 +21,7 @@ use App\Filament\Pages\Registration;
 use Filament\Navigation\MenuItem;
 use Illuminate\Support\Facades\Auth;
 
+
 class AdminPanelProvider extends PanelProvider
 {
     protected function getUserMenuItems(): array
@@ -36,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
                 ->url(fn () => route('filament.admin.pages.invite-user')),
         ];
     }
+
     public function panel(Panel $panel): Panel
     {
         return $panel

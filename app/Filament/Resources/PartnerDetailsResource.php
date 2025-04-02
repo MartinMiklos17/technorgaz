@@ -20,6 +20,7 @@ use App\Livewire\Foo;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
 use Filament\Forms\Components\Section;
+use App\Enums\AccountType;
 
 class PartnerDetailsResource extends Resource
 {
@@ -41,6 +42,15 @@ class PartnerDetailsResource extends Resource
     {
         return $form
             ->schema([
+                Section::make('Partner típus')
+                ->schema([
+                    Forms\Components\Select::make('account_type')
+                    ->label('Fiók típusa')
+                    ->options(AccountType::options())
+                    ->required()
+                    ->native(false),
+                ])
+                ->columns(1),
                 Section::make('Adatok')
                 ->description('Partner Adatai')
                 ->icon('heroicon-m-table-cells')
@@ -104,6 +114,17 @@ class PartnerDetailsResource extends Resource
                     MapboxField::make('map')
                         ->label(__('Térkép')),
                 ]),
+                Section::make('Füstgázelemző adatok')
+                    ->schema([
+                        Forms\Components\TextInput::make('flue_gas_analyzer_type')
+                            ->label('Füstgázelemző típusa')
+                            ->maxLength(255),
+
+                        Forms\Components\TextInput::make('flue_gas_analyzer_serial_number')
+                            ->label('Füstgázelemző sorozatszáma')
+                            ->maxLength(255),
+                    ])
+                    ->columns(2),
                 Section::make('Feltöltött Fájlok')
                 ->icon('heroicon-m-photo')
                 ->schema([
@@ -179,6 +200,9 @@ class PartnerDetailsResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('account_type')
+                ->label('Fiók típusa')
+                ->formatStateUsing(fn ($state) => $state->label()),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('Felhasználó'))
                     ->sortable()

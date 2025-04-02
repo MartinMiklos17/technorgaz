@@ -35,6 +35,10 @@ class Product extends Model
         'datasheets',
         'notes',
         'low_stock_limit',
+        'height',
+        'width',
+        'depth',
+        'weight',
     ];
 
     /**

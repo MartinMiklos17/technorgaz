@@ -31,8 +31,7 @@ use Filament\Support\RawJs;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
-
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Mail;
 
 class Registration extends Register
 {
@@ -183,6 +182,8 @@ class Registration extends Register
                         $this->getLicenseExpirationFormComponent(),
                         $this->getContactPersonFormComponent(),
                         $this->getPhoneFormComponent(),
+                        $this->getGasAnalyzerTypeFormComponent(),
+                        $this->getGasAnalyzerSerialNumberFormComponent(),
                         $this->getGasLicenceFrontImageUploadSectionFormPartnerDetails(),
                         $this->getGasLicenceBackImageUploadSectionFormPartnerDetails(),
                         $this->getGasAnalyzerDocImageUploadSectionFormPartnerDetails(),
@@ -201,12 +202,14 @@ class Registration extends Register
                     <x-filament::button
                         type="submit"
                         size="sm"
-                        wire:submit="register"
                         wire:loading.attr="disabled"
+                        wire:loading.class="opacity-70 cursor-not-allowed"
                         wire:target="
+                            register,
                             data.gas_installer_license_front_image,
                             data.gas_installer_license_back_image,
-                            data.flue_gas_analyzer_doc_image">
+                            data.flue_gas_analyzer_doc_image"
+                    >
                         Regisztráció
                     </x-filament::button>
                 BLADE
@@ -339,6 +342,8 @@ class Registration extends Register
                 'location_address'      => $data['location_address'],
                 'latitude'              => $data['latitude'],
                 'longitude'             => $data['longitude'],
+                'flue_gas_analyzer_type'    => $data['flue_gas_analyzer_type'],
+                'flue_gas_analyzer_serial_number'   => $data['flue_gas_analyzer_serial_number'],
 
                 'gas_installer_license_front_image' => $data['gas_installer_license_front_image'] ?? null,
                 'gas_installer_license_back_image'  => $data['gas_installer_license_back_image'] ?? null,
@@ -359,8 +364,10 @@ class Registration extends Register
         }
         // Email értesítés adminoknak új regisztrációról
         $adminUsers = User::where('is_admin', true)->get();
+        foreach ($adminUsers as $admin) {
+            Mail::to($admin->email)->send(new \App\Mail\AdminNewUserNotification($user));
+        }
 
-        Notification::send($adminUsers, new \App\Notifications\NewUserRegisteredNotification($user));
         return app(RegistrationResponse::class);
     }
 
@@ -470,6 +477,21 @@ class Registration extends Register
         return TextInput::make('phone')
             ->label(__('Telefonszám'))
             ->tel() // opcionális, ha telefonszám formátumot szeretnél
+            ->maxLength(50)
+            ->required();
+    }
+
+    protected function getGasAnalyzerSerialNumberFormComponent(): Component
+    {
+        return TextInput::make('flue_gas_analyzer_serial_number')
+            ->label(__('Füstgázelemző sorozatszáma'))
+            ->maxLength(50)
+            ->required();
+    }
+    protected function getGasAnalyzerTypeFormComponent(): Component
+    {
+        return TextInput::make('flue_gas_analyzer_type')
+            ->label(__('Füstgázelemző típusa'))
             ->maxLength(50)
             ->required();
     }

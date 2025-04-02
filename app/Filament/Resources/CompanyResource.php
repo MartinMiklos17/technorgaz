@@ -71,11 +71,6 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('Felhasználó')
-                    ->searchable()
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('company_name')
                     ->label('Cég neve')
                     ->searchable(),

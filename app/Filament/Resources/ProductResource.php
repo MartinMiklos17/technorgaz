@@ -126,6 +126,33 @@ class ProductResource extends Resource
                             ->label('cserealkatrész listában megjelenik?'),
                     ]),
 
+                    Forms\Components\Section::make('Méret és súly')
+                    ->schema([
+                        Forms\Components\TextInput::make('height')
+                            ->label('Magasság (cm)')
+                            ->numeric()
+                            ->step(0.01)
+                            ->suffix('cm'),
+
+                        Forms\Components\TextInput::make('width')
+                            ->label('Szélesség (cm)')
+                            ->numeric()
+                            ->step(0.01)
+                            ->suffix('cm'),
+
+                        Forms\Components\TextInput::make('depth')
+                            ->label('Mélység (cm)')
+                            ->numeric()
+                            ->step(0.01)
+                            ->suffix('cm'),
+
+                        Forms\Components\TextInput::make('weight')
+                            ->label('Súly (kg)')
+                            ->numeric()
+                            ->step(0.01)
+                            ->suffix('kg'),
+                    ])
+                    ->columns(2),
                 Forms\Components\Section::make('Készlet és fájlok')
                     ->schema([
                         Forms\Components\TextInput::make('low_stock_limit')

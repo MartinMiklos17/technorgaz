@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\AccountType;
 
 class PartnerDetails extends Model
 {
@@ -29,10 +30,17 @@ class PartnerDetails extends Model
         'gas_installer_license_front_image',
         'gas_installer_license_back_image',
         'flue_gas_analyzer_doc_image',
+
+        'account_type',
+
+        'flue_gas_analyzer_type',
+        'flue_gas_analyzer_serial_number',
     ];
     protected $casts = [
         'client_take' => 'boolean',
         'complete_execution' => 'boolean',
+        'account_type' => AccountType::class, // új cast
+
     ];
     public function company()
     {
