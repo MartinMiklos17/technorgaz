@@ -211,6 +211,10 @@ class ProductResource extends Resource
                     ->label('Cikkszám')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Név')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Státusz')
                     ->searchable()

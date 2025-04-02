@@ -10,7 +10,8 @@ use Filament\Support\Assets\Js;
 use Filament\Facades\Filament;
 use Filament\Support\Assets\Css;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
-
+use App\Models\ProductIntakeItem;
+use App\Observers\ProductIntakeItemObserver;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -49,5 +50,7 @@ class AppServiceProvider extends ServiceProvider
                 Js::make('leaflet-map', asset('js/leaflet-map.js')),*/
             ]);
         });
+        ProductIntakeItem::observe(ProductIntakeItemObserver::class);
+
     }
 }
