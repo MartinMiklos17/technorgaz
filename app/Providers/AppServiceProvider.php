@@ -12,6 +12,8 @@ use Filament\Support\Assets\Css;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use App\Models\ProductIntakeItem;
 use App\Observers\ProductIntakeItemObserver;
+use App\Models\ProductOutputItem;
+use App\Observers\ProductOutputItemObserver;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -51,6 +53,6 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
         ProductIntakeItem::observe(ProductIntakeItemObserver::class);
-
+        ProductOutputItem::observe(ProductOutputItemObserver::class);
     }
 }

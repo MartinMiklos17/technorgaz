@@ -62,6 +62,7 @@ class CompanyResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('company_taxnum')
                     ->label('Adószám')
+                    ->mask('99999999-9-99')
                     ->required()
                     ->maxLength(255),
             ]);

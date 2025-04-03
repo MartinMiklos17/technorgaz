@@ -4,16 +4,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-class ProductIntake extends Model
+
+class ProductOutput extends Model
 {
     protected static function booted(): void
     {
-        static::deleting(function ($intake) {
-            $intake->items()->get()->each->delete();
+        static::deleting(function ($output) {
+            $output->items()->get()->each->delete();
         });
     }
     protected $fillable = [
-        'supplier_id',
+        'customer_id',
         'date',
         'note',
     ];
@@ -22,13 +23,13 @@ class ProductIntake extends Model
         'date' => 'date',
     ];
 
-    public function supplier(): BelongsTo
+    public function customer(): BelongsTo
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function items(): HasMany
     {
-        return $this->hasMany(ProductIntakeItem::class);
+        return $this->hasMany(ProductOutputItem::class);
     }
 }
