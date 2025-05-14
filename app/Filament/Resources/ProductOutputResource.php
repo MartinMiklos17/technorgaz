@@ -14,9 +14,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
 use App\Enums\AccountType;
+use App\Forms\Schemas\CustomerFormSchema;
 use App\Models\Company;
 use App\Models\User;
-
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action;
+use Filament\Support\Colors\Color;
 class ProductOutputResource extends Resource
 {
     protected static ?string $model = ProductOutput::class;
@@ -39,153 +42,54 @@ class ProductOutputResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Vavő Adatok és dátum')
+                Section::make('Vevő Adatok és dátum')
                 ->schema([
                     Forms\Components\Select::make('customer_id')
                     ->label('Vevő')
-                    ->relationship('customer', 'name')
+                    ->relationship('customer', 'billing_name')
                     ->searchable()
+                    ->reactive() // <<< FONTOS
                     ->preload()
+                    ->required()
                     ->createOptionForm([
-                        Section::make('Adatok')
-                        ->schema([
-                            Forms\Components\TextInput::make('name')->label("Név")
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('zip')->label("Irányítószám")
-                                ->required()
-                                ->maxLength(20)
-                                ->default(null),
-                            Forms\Components\TextInput::make('city')->label("Város")
-                                ->required()
-                                ->maxLength(255)
-                                ->default(null),
-                            Forms\Components\TextInput::make('street')->label("Utca")
-                                ->required()
-                                ->maxLength(255)
-                                ->default(null),
-                            Forms\Components\TextInput::make('streetnumber')->label("Házszám")
-                                ->required()
-                                ->maxLength(50)
-                                ->default(null),
-                            Forms\Components\TextInput::make('floor')->label("Emelet")
-                                ->maxLength(50)
-                                ->default(null),
-                            Forms\Components\TextInput::make('door')->label("Ajtó")
-                                ->maxLength(50)
-                                ->default(null),
-                        ]),
-                        Section::make('Számlázási Adatok')
-                        ->schema([
-                        Forms\Components\Toggle::make('billing_same_as_main')
-                            ->label('Számlázási adatok megegyeznek az alap címmel')
-                            ->reactive()
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                if ($state) {
-                                    $set('billing_name', $get('name'));
-                                    $set('billing_zip', $get('zip'));
-                                    $set('billing_city', $get('city'));
-                                    $set('billing_street', $get('street'));
-                                    $set('billing_streetnumber', $get('streetnumber'));
-                                    $set('billing_floor', $get('floor'));
-                                    $set('billing_door', $get('door'));
-                                }
-                            }),
-                        Forms\Components\TextInput::make('billing_name')->label("Számlázási Név")
-                            ->required()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('billing_zip')->label("Számlázási Irányítószám")
-                            ->required()
-                            ->maxLength(20)
-                            ->default(null),
-                        Forms\Components\TextInput::make('billing_city')->label("Számlázási Város")
-                            ->required()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('billing_street')->label("Számlázási Utca")
-                            ->required()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('billing_streetnumber')->label("Számlázási Házszám")
-                            ->required()
-                            ->maxLength(50)
-                            ->default(null),
-                        Forms\Components\TextInput::make('billing_floor')->label("Számlázási Emelet")
-                            ->maxLength(50)
-                            ->default(null),
-                        Forms\Components\TextInput::make('billing_door')->label("Számlázási Ajtó")
-                            ->maxLength(50)
-                            ->default(null),
-                        ]),
-                        Section::make('Szállítási Adatok')
-                        ->schema([
-                        Forms\Components\Toggle::make('postal_same_as_main')
-                            ->label('Szállítási adatok megegyeznek az alap címmel')
-                            ->reactive()
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                if ($state) {
-                                    $set('postal_name', $get('name'));
-                                    $set('postal_zip', $get('zip'));
-                                    $set('postal_city', $get('city'));
-                                    $set('postal_street', $get('street'));
-                                    $set('postal_streetnumber', $get('streetnumber'));
-                                    $set('postal_floor', $get('floor'));
-                                    $set('postal_door', $get('door'));
-                                }
-                            }),
-                        Forms\Components\TextInput::make('postal_name')->label("Szállítási Név")
-                            ->required()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('postal_zip')->label("Szállítási Irányítószám")
-                            ->required()
-                            ->maxLength(20)
-                            ->default(null),
-                        Forms\Components\TextInput::make('postal_city')->label("Szállítási Város")
-                            ->required()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('postal_street')->label("Szállítási Utca")
-                            ->required()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('postal_streetnumber')->label("Szállítási Házszám")
-                            ->required()
-                            ->maxLength(50)
-                            ->default(null),
-                        Forms\Components\TextInput::make('postal_floor')->label("Szállítási Emelet")
-                            ->maxLength(50)
-                            ->default(null),
-                        Forms\Components\TextInput::make('postal_door')->label("Szállítási Ajtó")
-                            ->maxLength(50)
-                            ->default(null),
-                        ]),
-                        Section::make('További Adatok')
-                        ->schema([
-                        Forms\Components\TextInput::make('taxnumber')->label("Adószám")
-                            ->mask('99999999-9-99')
-                            ->maxLength(50)
-                            ->default(null),
-                        Forms\Components\TextInput::make('contact_name')->label("Kontakt Név")
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('contact_email')->label("Email")
-                            ->email()
-                            ->maxLength(255)
-                            ->default(null),
-                        Forms\Components\TextInput::make('contact_phone')->label("Telefonszám")
-                            ->tel()
-                            ->maxLength(50)
-                            ->default(null),
-                        ]),
+                        ...CustomerFormSchema::get(),
                     ])
-                    ->required(),
-                    Forms\Components\DatePicker::make('date')
+                    ->afterStateUpdated(function ($state) {
+                        $customer = \App\Models\Customer::find($state);
+
+                        if ($customer && is_null($customer->account_type)) {
+                            Notification::make()
+                                ->title('❗ Hiányzó fióktípus a vevőnél!')
+                                ->body('A kiválasztott vevőhöz nincs beállítva fióktípus (account_type), így az automatikus ár kiválasztás nem fog működni.')
+                                ->icon('heroicon-o-exclamation-circle') // vagy: heroicon-o-ban
+                                ->color(Color::Red) // piros stílus
+                                ->persistent()
+                                ->actions([
+                                    Action::make('go-to-customer')
+                                        ->label('Vevő szerkesztése')
+                                        ->url(route('filament.admin.resources.customers.edit', ['record' => $customer->id]))
+                                        ->openUrlInNewTab()
+                                        ->color('gray'),
+                                ])
+                                ->send();
+                        }
+                    }),
+                Forms\Components\DatePicker::make('date')
                     ->label('Kiadás dátuma')
                     ->required(),
                 ]),
-
+                Section::make('Fizetési mód')
+                    ->schema([
+                        Forms\Components\Select::make('payment_method') // <<< ÚJ MEZŐ
+                        ->label('Fizetési mód')
+                        ->options([
+                            'cash' => 'Készpénz',
+                            'card' => 'Bankkártya',
+                            'transfer' => 'Átutalás',
+                            'other' => 'Egyéb',
+                        ])
+                        ->required(),
+                    ])->columns(1),
                 Section::make('Termékek')
                     ->schema([
                         Forms\Components\Repeater::make('items')
@@ -199,13 +103,30 @@ class ProductOutputResource extends Resource
                                 )
                                 ->required()
                                 ->reactive()
-                                ->afterStateUpdated(function ($state, callable $set) {
+                                ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                                    $customerId = $get('../../customer_id'); // így működik repeaterben
                                     $product = \App\Models\Product::find($state);
-                                    if ($product) {
-                                        // előtöltéshez beállítunk egy default ár értéket
-                                        $set('selected_price', $product->price_a ?? 0);
+                                    $customer = \App\Models\Customer::find($customerId);
+
+                                    if ($product && $customer && $customer->account_type) {
+                                        $accountToPriceField = [
+                                            'service_partner' => 'service_partner_price',
+                                            'handover' => 'handover_price',
+                                            'wholesale' => 'wholesale_price',
+                                            'retail' => 'retail_price',
+                                            'service' => 'service_price',
+                                            'consumer' => 'consumer_price',
+                                        ];
+
+                                        $priceField = $accountToPriceField[$customer->account_type] ?? null;
+
+                                        if ($priceField && isset($product->{$priceField})) {
+                                            $set('price_type', $priceField);
+                                            $set('selected_price', $product->{$priceField});
+                                        }
                                     }
                                 }),
+
                                 Forms\Components\Select::make('price_type')
                                 ->label('Ártípus')
                                 ->options([
@@ -238,12 +159,25 @@ class ProductOutputResource extends Resource
                                 ->numeric()
                                 ->required()
                                 ->minValue(1)
+                                ->reactive()
                                 ->afterStateUpdated(function ($state, callable $get, callable $set) {
                                     $product = \App\Models\Product::find($get('product_id'));
                                     if ($product && $state > $product->inventory) {
-                                        $set('quantity', $product->inventory); // ne lépje túl a készletet
+                                        $set('quantity', $product->inventory); // visszaállítjuk
                                     }
-                                }),
+                                })
+                                ->maxValue(function (callable $get) {
+                                    $product = \App\Models\Product::find($get('product_id'));
+                                    return $product?->inventory ?? null;
+                                })
+                                ->helperText(fn (callable $get) =>
+                                    $get('product_id') ?
+                                    'Elérhető készlet: ' . (\App\Models\Product::find($get('product_id'))?->inventory ?? 0) . ' db'
+                                    : 'Válassz először terméket.')
+                                ->rule(function (callable $get) {
+                                        $product = \App\Models\Product::find($get('product_id'));
+                                        return 'max:' . ($product?->inventory ?? 999999);
+                                    }),
 
                             Forms\Components\Select::make('discount')
                                 ->label('Kedvezmény (%)')
@@ -255,22 +189,26 @@ class ProductOutputResource extends Resource
                                     20 => '20%',
                                     100 => '100%',
                                 ])
-                                ->default(0)
-                                ->required(),
+                                ->default(0),
                             Section::make('ÁFA, Garancia, Cserealkatrész')
                                 ->schema([
                                     Forms\Components\Toggle::make('is_vat_included')
                                         ->label('Áfát tartalmaz?')
                                         ->default(false),
-
                                     Forms\Components\Toggle::make('warranty')
                                         ->label('Garanciális termék')
-                                        ->default(false),
-
+                                        ->default(false)
+                                        ->reactive(),
+                                    Forms\Components\TextInput::make('serial_number')
+                                        ->label('Gyári szám')
+                                        ->reactive()
+                                        ->visible(fn (callable $get) => $get('warranty') === true)
+                                        ->requiredIf('warranty', true)
+                                        ->maxLength(255),
                                     Forms\Components\Toggle::make('spare_part_returned')
                                         ->label('Cserealkatrész leadva')
                                         ->default(false),
-                                ])->columns(3)
+                                ])->columns(3),
                         ])
                     ->columns(3)
                     ->required(),
@@ -287,23 +225,70 @@ class ProductOutputResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('partner_detail_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('customer.billing_name')
+                    ->label('Vevő neve')
+                    ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('customer.billing_city')
+                    ->label('Város')
+                    ->sortable()
+                    ->toggleable(),
+
                 Tables\Columns\TextColumn::make('date')
+                    ->label('Kiadás dátuma')
                     ->date()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('total_quantity')
+                    ->label('Tételek száma')
+                    ->sortable()
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('total_net')
+                    ->label('Nettó összeg')
+                    ->money('HUF')
+                    ->alignCenter()
+                    ->formatStateUsing(fn ($state) => number_format($state, 0, ',', ' ') . ' Ft'),
+
+                Tables\Columns\TextColumn::make('total_discount_amount')
+                    ->label('Kedvezmény összege')
+                    ->money('HUF')
+                    ->alignCenter()
+                    ->formatStateUsing(fn ($state) => number_format($state, 0, ',', ' ') . ' Ft'),
+
+                Tables\Columns\TextColumn::make('total_final_amount')
+                    ->label('Végösszeg')
+                    ->money('HUF')
+                    ->alignCenter()
+                    ->formatStateUsing(fn ($state) => number_format($state, 0, ',', ' ') . ' Ft'),
+                Tables\Columns\TextColumn::make('total_net')
+                    ->label('Összes érték (nettó)')
+                    ->money('HUF')
+                    ->sortable()
+                    ->alignCenter()
+                    ->formatStateUsing(fn ($state) => number_format($state, 0, ',', ' ') . ' Ft'),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->label('Fizetési mód')
+                    ->formatStateUsing(fn ($state) => match ($state) {
+                        'cash' => 'Készpénz',
+                        'card' => 'Bankkártya',
+                        'transfer' => 'Átutalás',
+                        'other' => 'Egyéb',
+                        default => 'Ismeretlen',
+                    })
+                    ->sortable()
+                    ->toggleable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                // Itt adhatsz hozzá dátum vagy vevő szerinti szűrőket
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Részletek'),
@@ -315,6 +300,7 @@ class ProductOutputResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {

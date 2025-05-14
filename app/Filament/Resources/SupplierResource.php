@@ -93,32 +93,45 @@ class SupplierResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Név')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('zip')
+                    ->label('Irányítószám')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('city')
+                    ->label('Város')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('street')
+                    ->label('Utca')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('streetnumber')
+                    ->label('Házszám')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('floor')
+                    ->label('Emelet')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('door')
+                    ->label('Ajtó')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('taxnum')
+                    ->label('Adószám')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('contact_name')
+                    ->label('Kapcsolattartó neve')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('Email cím')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
+                    ->label('Telefonszám')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Létrehozva')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Módosítva')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -136,6 +149,7 @@ class SupplierResource extends Resource
                 ]),
             ]);
     }
+
 
     public static function getRelations(): array
     {

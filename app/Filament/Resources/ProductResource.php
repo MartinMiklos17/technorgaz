@@ -162,7 +162,8 @@ class ProductResource extends Resource
                         Forms\Components\TextInput::make('inventory')
                             ->label('Készlet')
                             ->default(0)
-                            ->numeric(),
+                            ->numeric()
+                            ->readOnly(),
                             // Multiple photo uploads (assuming you store them as JSON)
                         Forms\Components\FileUpload::make('photos')
                             ->disk('product_photos')

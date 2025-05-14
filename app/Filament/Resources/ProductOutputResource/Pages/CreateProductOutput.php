@@ -11,10 +11,10 @@ class CreateProductOutput extends CreateRecord
     protected static string $resource = ProductOutputResource::class;
     public function getHeading(): string
     {
-        return 'Új Bevételezés létrehozása';
+        return 'Új Kiadás létrehozása';
     }
     public function getBreadcrumb(): string
     {
-        return 'Új Bevételezés hozzáadása';
+        return 'Új Kiadás hozzáadása';
     }
 }

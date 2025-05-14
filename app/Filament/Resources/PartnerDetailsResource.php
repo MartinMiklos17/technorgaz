@@ -68,7 +68,7 @@ class PartnerDetailsResource extends Resource
                         ->searchable(),
 
                     Forms\Components\Toggle::make('client_take')->required()
-                        ->label('Ügyfél fogadása'),
+                        ->label('Ügyeletet vállal?'),
                     Forms\Components\Toggle::make('complete_execution')->required()
                         ->label('Teljes kivitelezés'),
 
@@ -214,7 +214,7 @@ class PartnerDetailsResource extends Resource
                     ->searchable(),
 
                 Tables\Columns\IconColumn::make('client_take')
-                    ->label(__('Ügyfél fogadása'))
+                    ->label(__('Ügyeletet vállal?'))
                     ->boolean(),
 
                 Tables\Columns\IconColumn::make('complete_execution')

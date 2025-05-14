@@ -50,4 +50,8 @@ class PartnerDetails extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

@@ -53,7 +53,7 @@ class PartnerDetailsRelationManager extends RelationManager
                     ->searchable(),
 
                 Toggle::make('client_take')
-                    ->label('Ügyfél fogadása')
+                    ->label('Ügyeletet vállal?')
                     ->required(),
 
                 Toggle::make('complete_execution')
@@ -115,7 +115,7 @@ class PartnerDetailsRelationManager extends RelationManager
                     ->searchable(),
 
                 Tables\Columns\IconColumn::make('client_take')
-                    ->label('Ügyfél fogadása')
+                    ->label('Ügyeletet vállal?')
                     ->boolean(),
 
                 Tables\Columns\IconColumn::make('complete_execution')

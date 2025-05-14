@@ -17,6 +17,7 @@ class ProductOutput extends Model
         'customer_id',
         'date',
         'note',
+        'payment_method',
     ];
 
     protected $casts = [
@@ -31,5 +32,32 @@ class ProductOutput extends Model
     public function items(): HasMany
     {
         return $this->hasMany(ProductOutputItem::class);
+    }
+    protected $appends = ['total_quantity', 'total_net'];
+
+    public function getTotalQuantityAttribute(): int
+    {
+        return $this->items->sum('quantity');
+    }
+
+    public function getTotalNetAttribute(): float
+    {
+        return $this->items->sum(fn ($item) => $item->quantity * $item->selected_price);
+    }
+    public function getTotalDiscountAmountAttribute(): float
+    {
+        return $this->items->sum(function ($item) {
+            $price = $item->selected_price * $item->quantity;
+            return $price * ($item->discount / 100);
+        });
+    }
+
+    public function getTotalFinalAmountAttribute(): float
+    {
+        return $this->items->sum(function ($item) {
+            $price = $item->selected_price * $item->quantity;
+            $discount = $price * ($item->discount / 100);
+            return $price - $discount;
+        });
     }
 }

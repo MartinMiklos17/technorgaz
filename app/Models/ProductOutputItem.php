@@ -16,6 +16,7 @@ class ProductOutputItem extends Model
         'is_vat_included',
         'warranty',
         'spare_part_returned',
+        'serial_number',
     ];
 
     protected $casts = [

@@ -157,10 +157,10 @@ class Registration extends Register
                             $this->getCompanyTaxnumFormComponent(),
                         ]),
                     // 3. lépés: Térképes címválasztás (Google Maps integráció)
-                    Wizard\Step::make('Helyszín')
+                    Wizard\Step::make('Munkaterület')
                         ->schema([
                             TextInput::make('location_address')
-                                ->label(__('Helyszín')),
+                                ->label(__('Munkaterület Címe')),
                             TextInput::make('latitude')
                                 ->label("Szélesség"),
                             TextInput::make('longitude')
@@ -352,6 +352,36 @@ class Registration extends Register
             // Frissítsük a felhasználó rekordját, ha a User modelled tartalmaz company_id mezőt
             $user->update(['company_id' => $company->id]);
             $user->update(['partner_details_id' => $partnerDetails->id]);
+
+            //customer create
+            $parsed = $this->parseAddressParts($company->company_address);
+
+            \App\Models\Customer::create([
+                'billing_name' => $company->company_name,
+                'billing_zip' => $company->company_zip,
+                'billing_city' => $company->company_city,
+                'billing_street' => $parsed['street'],
+                'billing_streetnumber' => $parsed['streetnumber'],
+                'billing_floor' => $parsed['floor'],
+                'billing_door' => $parsed['door'],
+
+                'postal_name' => $company->company_name,
+                'postal_zip' => $company->company_zip,
+                'postal_city' => $company->company_city,
+                'postal_street' => $parsed['street'],
+                'postal_streetnumber' => $parsed['streetnumber'],
+                'postal_floor' => $parsed['floor'],
+                'postal_door' => $parsed['door'],
+
+                'taxnumber' => $company->company_taxnum,
+                'contact_name' => $data['contact_person'] ?? null,
+                'contact_email' => $data['email'],
+                'contact_phone' => $data['phone'] ?? null,
+                // 🆕 Új mezők:
+                'user_id' => $user->id,
+                'partner_details_id' => $partnerDetails->id,
+            ]);
+
         }
 
         auth()->login($user);
@@ -426,7 +456,7 @@ class Registration extends Register
     {
         return Checkbox::make('client_take')
 
-            ->label('Ügyfelet vállal-e')
+            ->label('Ügyeletet vállal-e')
             ->default(false);
     }
 
@@ -442,8 +472,8 @@ class Registration extends Register
     {
         return TextInput::make('gas_installer_license')
             ->prefix('G/')
-            ->numeric()
             ->label(__('Gázszerelő igazolvány száma'))
+            ->mask('99999/9999')
             ->maxLength(255)
             ->required()
             ->formatStateUsing(function ($state) {
@@ -495,87 +525,110 @@ class Registration extends Register
             ->maxLength(50)
             ->required();
     }
-/************************************************************
- * 1) Előlap: gas_installer_license_front_image
- ************************************************************/
-protected function getGasLicenceFrontImageUploadSectionFormPartnerDetails(): Component
-{
-    return FileUpload::make('gas_installer_license_front_image')
-        ->label('Gázszerelő igazolvány - Előlap')
-        // Az a diszk, amit a config/filesystems.php-ban definiáltál,
-        // pl. 'partner_documents_upload' => [ 'root' => public_path('uploads/partner_documents'), ... ]
-        ->disk('partner_documents_upload')
-        ->acceptedFileTypes(['image/*','application/pdf'])
-        ->imagePreviewHeight('200')
-        ->openable()      // Filament 3.x: "Megnyitás" gomb
-        ->downloadable()  // "Letöltés" gomb
-        ->previewable()   // Előnézet (képekhez)
-        ->deletable(true)
-        ->hint('Kép vagy PDF')
-        // Ha a felhasználótól függő mappába akarod pakolni
-        ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
-            // Ha Szerkesztésnél ($record) már ismert a user_id
-            if ($record && $record->user_id) {
-                return 'user_' . $record->user_id;
-            }
-            // Ha Új rekordnál a form-on van egy user_id mező
-            $formUserId = $get('user_id');
-            return $formUserId
-                ? 'user_' . $formUserId
-                : 'tmp'; // Alapesetben "tmp" alkönyvtár
-        });
-}
+    /************************************************************
+     * 1) Előlap: gas_installer_license_front_image
+     ************************************************************/
+    protected function getGasLicenceFrontImageUploadSectionFormPartnerDetails(): Component
+    {
+        return FileUpload::make('gas_installer_license_front_image')
+            ->label('Gázszerelő igazolvány - Előlap')
+            // Az a diszk, amit a config/filesystems.php-ban definiáltál,
+            // pl. 'partner_documents_upload' => [ 'root' => public_path('uploads/partner_documents'), ... ]
+            ->disk('partner_documents_upload')
+            ->acceptedFileTypes(['image/*','application/pdf'])
+            ->imagePreviewHeight('200')
+            ->openable()      // Filament 3.x: "Megnyitás" gomb
+            ->downloadable()  // "Letöltés" gomb
+            ->previewable()   // Előnézet (képekhez)
+            ->deletable(true)
+            ->hint('Kép vagy PDF')
+            // Ha a felhasználótól függő mappába akarod pakolni
+            ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
+                // Ha Szerkesztésnél ($record) már ismert a user_id
+                if ($record && $record->user_id) {
+                    return 'user_' . $record->user_id;
+                }
+                // Ha Új rekordnál a form-on van egy user_id mező
+                $formUserId = $get('user_id');
+                return $formUserId
+                    ? 'user_' . $formUserId
+                    : 'tmp'; // Alapesetben "tmp" alkönyvtár
+            });
+    }
 
-/************************************************************
- * 2) Hátlap: gas_installer_license_back_image
- ************************************************************/
-protected function getGasLicenceBackImageUploadSectionFormPartnerDetails(): Component
-{
-    return FileUpload::make('gas_installer_license_back_image')
-        ->label('Gázszerelő igazolvány - Hátlap')
-        ->disk('partner_documents_upload')
-        ->acceptedFileTypes(['image/*','application/pdf'])
-        ->imagePreviewHeight('200')
-        ->openable()
-        ->downloadable()
-        ->previewable()
-        ->deletable(true)
-        ->hint('Kép vagy PDF')
-        ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
-            if ($record && $record->user_id) {
-                return 'user_' . $record->user_id;
-            }
-            $formUserId = $get('user_id');
-            return $formUserId
-                ? 'user_' . $formUserId
-                : 'tmp';
-        });
-}
+    /************************************************************
+     * 2) Hátlap: gas_installer_license_back_image
+     ************************************************************/
+    protected function getGasLicenceBackImageUploadSectionFormPartnerDetails(): Component
+    {
+        return FileUpload::make('gas_installer_license_back_image')
+            ->label('Gázszerelő igazolvány - Hátlap')
+            ->disk('partner_documents_upload')
+            ->acceptedFileTypes(['image/*','application/pdf'])
+            ->imagePreviewHeight('200')
+            ->openable()
+            ->downloadable()
+            ->previewable()
+            ->deletable(true)
+            ->hint('Kép vagy PDF')
+            ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
+                if ($record && $record->user_id) {
+                    return 'user_' . $record->user_id;
+                }
+                $formUserId = $get('user_id');
+                return $formUserId
+                    ? 'user_' . $formUserId
+                    : 'tmp';
+            });
+    }
 
-/************************************************************
- * 3) Füstgázmérő dok/számla: flue_gas_analyzer_doc_image
- ************************************************************/
-protected function getGasAnalyzerDocImageUploadSectionFormPartnerDetails(): Component
-{
-    return FileUpload::make('flue_gas_analyzer_doc_image')
-        ->label('Füstgázmérő dokumentum / számla')
-        ->disk('partner_documents_upload')
-        ->acceptedFileTypes(['image/*','application/pdf'])
-        ->imagePreviewHeight('200')
-        ->openable()
-        ->downloadable()
-        ->previewable()
-        ->deletable(true)
-        ->hint('Kép vagy PDF')
-        ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
-            if ($record && $record->user_id) {
-                return 'user_' . $record->user_id;
-            }
-            $formUserId = $get('user_id');
-            return $formUserId
-                ? 'user_' . $formUserId
-                : 'tmp';
-        });
-}
+    /************************************************************
+     * 3) Füstgázmérő dok/számla: flue_gas_analyzer_doc_image
+     ************************************************************/
+    protected function getGasAnalyzerDocImageUploadSectionFormPartnerDetails(): Component
+    {
+        return FileUpload::make('flue_gas_analyzer_doc_image')
+            ->label('Füstgázmérő dokumentum / számla')
+            ->disk('partner_documents_upload')
+            ->acceptedFileTypes(['image/*','application/pdf'])
+            ->imagePreviewHeight('200')
+            ->openable()
+            ->downloadable()
+            ->previewable()
+            ->deletable(true)
+            ->hint('Kép vagy PDF')
+            ->directory(function (callable $get, ?\App\Models\PartnerDetails $record) {
+                if ($record && $record->user_id) {
+                    return 'user_' . $record->user_id;
+                }
+                $formUserId = $get('user_id');
+                return $formUserId
+                    ? 'user_' . $formUserId
+                    : 'tmp';
+            });
+    }
+    function parseAddressParts(?string $fullAddress): array
+    {
+        // Alapértelmezés: üres vagy hibás cím esetén
+        $default = [
+            'street' => null,
+            'streetnumber' => null,
+            'floor' => null,
+            'door' => null,
+        ];
 
+        if (!$fullAddress) {
+            return $default;
+        }
+
+        // Egyszerű regex: "utca 12/A II/3"
+        preg_match('/^(.+?)\s+(\d+[\/\dA-Za-z]*)\s*(.*)$/u', $fullAddress, $matches);
+
+        return [
+            'street' => $matches[1] ?? null,
+            'streetnumber' => $matches[2] ?? null,
+            'floor' => null, // ezt külön lehetne keresni a $matches[3]-ból
+            'door' => null,
+        ];
+    }
 }

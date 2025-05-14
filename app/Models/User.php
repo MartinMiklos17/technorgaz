@@ -27,8 +27,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'is_admin',
         'company_id',
         'partner_details_id',
+        'account_type',
     ];
+    protected static function booted(): void
+    {
+        static::saved(function (User $user) {
+            if ($user->account_type !== null) {
+                $user->customer?->updateQuietly([
+                    'account_type' => $user->account_type,
+                ]);
 
+                $user->partnerDetails?->updateQuietly([
+                    'account_type' => $user->account_type,
+                ]);
+            }
+        });
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,12 +64,13 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'account_type' => \App\Enums\AccountType::class,
         ];
     }
 
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsTo(Company::class, 'company_id');
     }
 
     public function partnerDetails()
@@ -73,5 +88,8 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new \App\Notifications\CustomResetPassword($token));
     }
-
+    public function customer()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

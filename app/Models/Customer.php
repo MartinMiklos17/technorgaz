@@ -6,14 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 class Customer extends Model
 {
     protected $fillable = [
-        'name',
-        'zip',
-        'city',
-        'street',
-        'streetnumber',
-        'floor',
-        'door',
-
         'billing_name',
         'billing_zip',
         'billing_city',
@@ -34,5 +26,18 @@ class Customer extends Model
         'contact_name',
         'contact_email',
         'contact_phone',
+        'account_type',
+
+        'user_id',
+        'partner_details_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function partnerDetails()
+    {
+        return $this->belongsTo(PartnerDetails::class);
+    }
 }

@@ -17,6 +17,8 @@ use App\Filament\Resources\UserResource\RelationManagers\CompanyRelationManager;
 use App\Models\PartnerDetails;
 use Filament\Tables\Columns\CheckboxColumn;
 use App\Models\Company;
+use Filament\Forms\Components\Section;
+use App\Enums\AccountType;
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -40,6 +42,16 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
+                Section::make('Partner típus')
+                ->schema([
+                    Forms\Components\Select::make('account_type')
+                    ->label('Fiók típusa')
+                    ->options(AccountType::options())
+                    ->required()
+                    ->native(false)
+                    ->dehydrateStateUsing(fn ($state) => is_string($state) ? AccountType::tryFrom($state) : $state)
+                    ->formatStateUsing(fn ($state) => $state instanceof AccountType ? $state->value : $state)
+                ]),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255)
@@ -67,6 +79,9 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('account_type')
+                ->label('Fiók típusa')
+                ->formatStateUsing(fn ($state) => $state->label()),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->label('Név'),

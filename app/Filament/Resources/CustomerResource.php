@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Section;
+use App\Enums\AccountType;
 class CustomerResource extends Resource
 {
     protected static ?string $model = Customer::class;
@@ -34,50 +35,16 @@ class CustomerResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Adatok')
+                Section::make('Partner típus')
                 ->schema([
-                    Forms\Components\TextInput::make('name')->label("Név")
-                        ->required()
-                        ->maxLength(255),
-                    Forms\Components\TextInput::make('zip')->label("Irányítószám")
-                        ->required()
-                        ->maxLength(20)
-                        ->default(null),
-                    Forms\Components\TextInput::make('city')->label("Város")
-                        ->required()
-                        ->maxLength(255)
-                        ->default(null),
-                    Forms\Components\TextInput::make('street')->label("Utca")
-                        ->required()
-                        ->maxLength(255)
-                        ->default(null),
-                    Forms\Components\TextInput::make('streetnumber')->label("Házszám")
-                        ->required()
-                        ->maxLength(50)
-                        ->default(null),
-                    Forms\Components\TextInput::make('floor')->label("Emelet")
-                        ->maxLength(50)
-                        ->default(null),
-                    Forms\Components\TextInput::make('door')->label("Ajtó")
-                        ->maxLength(50)
-                        ->default(null),
+                    Forms\Components\Select::make('account_type')
+                    ->label('Fiók típusa')
+                    ->options(AccountType::options())
+                    ->required()
+                    ->native(false),
                 ]),
                 Section::make('Számlázási Adatok')
                 ->schema([
-                Forms\Components\Toggle::make('billing_same_as_main')
-                    ->label('Számlázási adatok megegyeznek az alap címmel')
-                    ->reactive()
-                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                        if ($state) {
-                            $set('billing_name', $get('name'));
-                            $set('billing_zip', $get('zip'));
-                            $set('billing_city', $get('city'));
-                            $set('billing_street', $get('street'));
-                            $set('billing_streetnumber', $get('streetnumber'));
-                            $set('billing_floor', $get('floor'));
-                            $set('billing_door', $get('door'));
-                        }
-                    }),
                 Forms\Components\TextInput::make('billing_name')->label("Számlázási Név")
                     ->required()
                     ->maxLength(255)
@@ -112,13 +79,13 @@ class CustomerResource extends Resource
                     ->reactive()
                     ->afterStateUpdated(function ($state, callable $set, callable $get) {
                         if ($state) {
-                            $set('postal_name', $get('name'));
-                            $set('postal_zip', $get('zip'));
-                            $set('postal_city', $get('city'));
-                            $set('postal_street', $get('street'));
-                            $set('postal_streetnumber', $get('streetnumber'));
-                            $set('postal_floor', $get('floor'));
-                            $set('postal_door', $get('door'));
+                            $set('postal_name', $get('billing_name'));
+                            $set('postal_zip', $get('billing_zip'));
+                            $set('postal_city', $get('billing_city'));
+                            $set('postal_street', $get('billing_street'));
+                            $set('postal_streetnumber', $get('billing_streetnumber'));
+                            $set('postal_floor', $get('billing_floor'));
+                            $set('postal_door', $get('billing_door'));
                         }
                     }),
                 Forms\Components\TextInput::make('postal_name')->label("Szállítási Név")
@@ -173,20 +140,10 @@ class CustomerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label("Név")
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('zip')->label("Irányítószám")
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('city')->label("Város")
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('street')->label("Utca")
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('streetnumber')->label("Házszám")
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('floor')->label("Emelet")
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('door')->label("Ajtó")
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('account_type')
+                ->label('Fiók típusa')
+                ->formatStateUsing(fn ($state) => AccountType::tryFrom($state)?->label() ?? '-'),
+
                 Tables\Columns\TextColumn::make('billing_name')->label("Számlázási Név")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('billing_address')->label("Számlázási Cím")
