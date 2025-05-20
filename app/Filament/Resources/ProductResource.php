@@ -116,12 +116,8 @@ class ProductResource extends Resource
                         Forms\Components\Toggle::make('is_active')
                             ->label('Státusz aktív?')
                             ->default(true),
-                        Forms\Components\Toggle::make('show_in_main_carousel')
-                            ->label('Főoldali carouselben megjelenik?'),
                         Forms\Components\Toggle::make('show_in_webshop')
                             ->label('Webshopban megjelenik?'),
-                        Forms\Components\Toggle::make('has_electronic_installation_log')
-                            ->label('Elektronikus beüzemelési napló?'),
                         Forms\Components\Toggle::make('show_in_spare_parts_list')
                             ->label('cserealkatrész listában megjelenik?'),
                     ]),
@@ -223,12 +219,6 @@ class ProductResource extends Resource
                 Tables\Columns\ToggleColumn::make('show_in_webshop')
                     ->label('Webshop?')
                     ->sortable(),
-                Tables\Columns\ToggleColumn::make('show_in_main_carousel')
-                    ->label('Carouselben megjelenik?')
-                    ->sortable(),
-                Tables\Columns\ToggleColumn::make('has_electronic_installation_log')
-                    ->label('Elektronikus beüzemelési napló?')
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('inventory')
                     ->label('Készlet')
                     ->sortable(),
@@ -242,7 +232,8 @@ class ProductResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make()->label('Részletek'),
                 Tables\Actions\EditAction::make()->label('Szerkesztés'),
-            ])->defaultSort('inventory', 'asc');
+            ])
+            ->defaultSort('name', 'asc');
     }
 
     public static function getRelations(): array

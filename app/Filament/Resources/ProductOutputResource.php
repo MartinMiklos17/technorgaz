@@ -76,6 +76,7 @@ class ProductOutputResource extends Resource
                     }),
                 Forms\Components\DatePicker::make('date')
                     ->label('Kiadás dátuma')
+                    ->native(false)
                     ->required(),
                 ]),
                 Section::make('Fizetési mód')

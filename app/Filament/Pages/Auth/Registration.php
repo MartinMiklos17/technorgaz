@@ -243,13 +243,14 @@ class Registration extends Register
                 'password' => $data['password'],
                 'company_id' => $this->companyId,
                 'is_admin' => $this->isAdmin,
+                'account_type'=>'service',
             ]);
         }else{
             $user = User::create([
                 'name'     => $data['name'],
                 'email'    => $data['email'],
                 'password' => $data['password'],
-
+                'account_type'=>'service',
             ]);
             $existingCompany = Company::firstWhere('company_taxnum', $data['company_taxnum']);
 
@@ -348,6 +349,7 @@ class Registration extends Register
                 'gas_installer_license_front_image' => $data['gas_installer_license_front_image'] ?? null,
                 'gas_installer_license_back_image'  => $data['gas_installer_license_back_image'] ?? null,
                 'flue_gas_analyzer_doc_image'       => $data['flue_gas_analyzer_doc_image'] ?? null,
+                'account_type'=>'service',
             ]);
             // Frissítsük a felhasználó rekordját, ha a User modelled tartalmaz company_id mezőt
             $user->update(['company_id' => $company->id]);
@@ -380,8 +382,22 @@ class Registration extends Register
                 // 🆕 Új mezők:
                 'user_id' => $user->id,
                 'partner_details_id' => $partnerDetails->id,
+                'account_type'=>'service',
             ]);
-
+            // supplier létrehozása
+            \App\Models\Supplier::create([
+                'name'         => $company->company_name,
+                'zip'          => $company->company_zip,
+                'city'         => $company->company_city,
+                'street'       => $parsed['street'],
+                'streetnumber' => $parsed['streetnumber'],
+                'floor'        => $parsed['floor'],
+                'door'         => $parsed['door'],
+                'taxnum'       => $company->company_taxnum,
+                'contact_name' => $data['contact_person'] ?? null,
+                'email'        => $data['email'],
+                'phone'        => $data['phone'] ?? null,
+            ]);
         }
 
         auth()->login($user);
@@ -491,7 +507,8 @@ class Registration extends Register
     {
         return DatePicker::make('license_expiration')
             ->label(__('Igazolvány lejárata'))
-            ->required();
+            ->required()
+            ->native(false);
     }
 
     protected function getContactPersonFormComponent(): Component

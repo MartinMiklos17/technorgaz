@@ -66,7 +66,8 @@ class PartnerDetailsRelationManager extends RelationManager
                     ->default(null),
 
                 DatePicker::make('license_expiration')
-                    ->label('Engedély lejárata'),
+                    ->label('Engedély lejárata')
+                    ->native(false),
 
                 TextInput::make('contact_person')
                     ->label('Kapcsolattartó')

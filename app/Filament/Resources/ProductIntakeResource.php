@@ -132,7 +132,8 @@ class ProductIntakeResource extends Resource
                     ->required(),
                 Forms\Components\DatePicker::make('date')
                     ->required()
-                    ->label('Dátum'),
+                    ->label('Dátum')
+                    ->native(false),
                 Forms\Components\Textarea::make('note')
                     ->columnSpanFull()
                     ->label('Megjegyzés'),

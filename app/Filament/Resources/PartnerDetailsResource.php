@@ -79,7 +79,8 @@ class PartnerDetailsResource extends Resource
 
                     Forms\Components\DatePicker::make('license_expiration')
                     ->label('Engedély lejárata')
-                        ->required(),
+                    ->required()
+                    ->native(false),
 
                     Forms\Components\TextInput::make('contact_person')
                         ->label('Kapcsolattartó')
