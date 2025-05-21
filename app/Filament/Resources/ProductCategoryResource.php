@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Forms\Schemas\ProductCategoryFormSchema;
+use App\Tables\Schemas\ProductCategoryTableSchema;
 
 class ProductCategoryResource extends Resource
 {
@@ -33,13 +35,7 @@ class ProductCategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Elnevezés')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('short_description')
-                    ->label('Rövid Leírás')
-                    ->columnSpanFull(),
+                ...ProductCategoryFormSchema::get()
             ]);
     }
 
@@ -47,35 +43,16 @@ class ProductCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->label(__('Elnevezés'))
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('short_description')
-                    ->label(__('Rövid Leírás'))
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('Rögzítés Dátuma'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('Utolsó Módosítás Dátuma'))
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...ProductCategoryTableSchema::columns()
             ])
             ->filters([
-                //
+                ...ProductCategoryTableSchema::filters()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label('Részletek'),
-                Tables\Actions\EditAction::make()->label('Szerkesztés'),
+                ...ProductCategoryTableSchema::actions()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label('Törlés'),
-                ]),
+                ...ProductCategoryTableSchema::bulkActions()
             ]);
     }
 

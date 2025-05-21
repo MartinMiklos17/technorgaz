@@ -19,6 +19,9 @@ use Filament\Tables\Columns\CheckboxColumn;
 use App\Models\Company;
 use Filament\Forms\Components\Section;
 use App\Enums\AccountType;
+use App\Tables\Schemas\UserTableSchema;
+use App\Forms\Schemas\UserFormSchema;
+
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
@@ -42,35 +45,7 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Partner típus')
-                ->schema([
-                    Forms\Components\Select::make('account_type')
-                    ->label('Fiók típusa')
-                    ->options(AccountType::options())
-                    ->required()
-                    ->native(false)
-                    ->dehydrateStateUsing(fn ($state) => is_string($state) ? AccountType::tryFrom($state) : $state)
-                    ->formatStateUsing(fn ($state) => $state instanceof AccountType ? $state->value : $state)
-                ]),
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255)
-                    ->label('Név'),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-
-                // A cégkapcsolat kiválasztása (feltételezve, hogy a user tábla 'company_id' kulcsot használ)
-                Forms\Components\Select::make('company_id')
-                ->label('Cég')
-                ->required()
-                ->options(Company::all()->pluck('company_name', 'id')->toArray())
-                ->searchable(),
-
-                // Admin szerepkör
-                Forms\Components\Toggle::make('is_admin')
-                    ->label('Admin Jogosultság?'),
+                ...UserFormSchema::get()
             ]);
     }
 
@@ -79,45 +54,16 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('account_type')
-                ->label('Fiók típusa')
-                ->formatStateUsing(fn ($state) => $state->label()),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable()
-                    ->label('Név'),
-                Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company.company_name')
-                    ->searchable()
-                    ->label('Kapcsolódó Cég Név'),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->label('Email Cím Hitelesítve'),
-                Tables\Columns\ToggleColumn::make('is_admin')
-                    ->label('Admin Jogosultsága van?')
-                    ->sortable()
-                    ->disabled(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...UserTableSchema::columns()
             ])
             ->filters([
-                //
+                ...UserTableSchema::filters()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label('Részletek'),
-                Tables\Actions\EditAction::make()->label('Szerkesztés'),
+                ...UserTableSchema::actions()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ...UserTableSchema::bulkActions()
             ]);
     }
 

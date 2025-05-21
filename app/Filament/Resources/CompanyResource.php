@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CompanyResource\RelationManagers\PartnerDetailsRelationManager;
 use App\Filament\Resources\CompanyResource\RelationManagers\UsersRelationManager;
+use App\Forms\Schemas\CompanyFormSchema;
+use App\Tables\Schemas\CompanyTableSchema;
+
 class CompanyResource extends Resource
 {
     protected static ?string $model = Company::class;
@@ -35,36 +38,7 @@ class CompanyResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label('Felhasználó')
-                    ->required()
-                    ->options(User::all()->pluck('name', 'id')->toArray())
-                    ->searchable(),
-                Forms\Components\TextInput::make('company_name')
-                    ->label('Cég neve')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_country')
-                    ->label('Ország')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_zip')
-                    ->label('Irányítószám')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_city')
-                    ->label('Város')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_address')
-                    ->label('Cím')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_taxnum')
-                    ->label('Adószám')
-                    ->mask('99999999-9-99')
-                    ->required()
-                    ->maxLength(255),
+                ...CompanyFormSchema::get()
             ]);
     }
 
@@ -72,49 +46,16 @@ class CompanyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('company_name')
-                    ->label('Cég neve')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_country')
-                    ->label('Ország')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_zip')
-                    ->label('Irányítószám')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_city')
-                    ->label('Város')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_address')
-                    ->label('Cím')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_taxnum')
-                    ->label('Adószám')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Létrehozva')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Módosítva')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...CompanyTableSchema::columns()
             ])
             ->filters([
-                //
+                ...CompanyTableSchema::filters()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()->label('Részletek'),
-                Tables\Actions\EditAction::make()->label('Szerkesztés'),
+                ...CompanyTableSchema::actions()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()->label('Törlés')                  ->modalSubmitActionLabel('Mentés')
-                    ->modalHeading('Partner Adatok Törlése')
-                    ->modalDescription('Biztosan törölni szeretné a kiválasztott Céget?')
-                    ->modalcancelActionLabel('Mégse'),
-                ])->label('Törlés')
+                ...CompanyTableSchema::bulkActions()
             ]);
     }
 
