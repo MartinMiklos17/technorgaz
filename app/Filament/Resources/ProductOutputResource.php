@@ -94,6 +94,14 @@ class ProductOutputResource extends Resource
                 Section::make('Termékek')
                     ->schema([
                         Forms\Components\Repeater::make('items')
+                        ->addAction(
+                            fn (\Filament\Forms\Components\Actions\Action $action) =>
+                                $action
+                                    ->label('➕ Termék hozzáadása')
+                                    ->button()
+                                    ->color('success') // 'primary', 'success', 'danger', 'gray', stb.
+                                    ->size('lg')       // 'sm', 'md', 'lg'
+                        )
                         ->label('Kiadott termékek')
                         ->relationship()
                         ->schema([

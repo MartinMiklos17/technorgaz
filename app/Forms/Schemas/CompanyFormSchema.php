@@ -5,6 +5,8 @@ use Filament\Forms;
 use Filament\Forms\Components\Section;
 use App\Enums\AccountType;
 use App\Models\User;
+use App\Forms\Components\ZipLookupField;
+
 class CompanyFormSchema
 {
     public static function get(): array
@@ -23,10 +25,9 @@ class CompanyFormSchema
                     ->label('Ország')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('company_zip')
-                    ->label('Irányítószám')
+                ZipLookupField::make('company_zip')
                     ->required()
-                    ->maxLength(255),
+                    ->cityField('company_city'),
                 Forms\Components\TextInput::make('company_city')
                     ->label('Város')
                     ->required()

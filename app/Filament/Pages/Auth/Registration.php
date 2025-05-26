@@ -32,7 +32,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
-
+use App\Forms\Components\ZipLookupField;
 class Registration extends Register
 {
     protected ?string $maxWidth = '7xl';
@@ -435,10 +435,11 @@ class Registration extends Register
 
     protected function getCompanyZipFormComponent(): Component
     {
-        return TextInput::make('company_zip')
+        return ZipLookupField::make('company_zip')
+            ->required()
+            ->cityField('company_city')
             ->label(__('Irsz'))
-            ->maxLength(255)
-            ->required();
+            ->maxLength(255);
     }
 
     protected function getCompanyCityFormComponent(): Component

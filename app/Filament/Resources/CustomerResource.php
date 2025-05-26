@@ -24,7 +24,6 @@ class CustomerResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationGroup = 'Partnercégek';
     protected static ?string $pluralModelLabel = 'Vevők';
-
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

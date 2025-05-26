@@ -34,11 +34,11 @@ Tables\Columns\TextColumn::make('account_type')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('gas_installer_license')
-                    ->label(__('Gázszerelő engedély'))
+                    ->label(__('Gázszerelő igazolvány'))
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('license_expiration')
-                    ->label(__('Engedély lejárata'))
+                    ->label(__('Gázszerelő igazolvány lejárata'))
                     ->date()
                     ->sortable(),
 

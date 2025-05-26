@@ -5,8 +5,8 @@ namespace App\Filament\Resources\PartnerDetailsResource\Pages;
 use App\Filament\Resources\PartnerDetailsResource;
 use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
-
-class CreatePartnerDetails extends CreateRecord
+use App\Filament\Pages\BaseCreateRecord;
+class CreatePartnerDetails extends BaseCreateRecord
 {
     protected static string $resource = PartnerDetailsResource::class;
     public function getHeading(): string

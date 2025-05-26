@@ -13,8 +13,15 @@ class EditProductOrder extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\ViewAction::make()->label('Vissza'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Termék Rendelés szerkesztése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Termék Rendelés szerkesztése';
     }
 }

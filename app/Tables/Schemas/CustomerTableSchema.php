@@ -52,16 +52,6 @@ class CustomerTableSchema
     public static function filters(): array
     {
         return [
-            SelectFilter::make('account_type')
-                ->label('Fiók típusa')
-                ->options(fn () => Customer::query()
-                    ->select('account_type')
-                    ->distinct()
-                    ->pluck('account_type', 'account_type')
-                    ->mapWithKeys(fn ($value) => [$value => AccountType::tryFrom($value)?->label() ?? $value])
-                    ->toArray())
-                ->searchable(),
-
             SelectFilter::make('billing_name')
                 ->label('Számlázási név')
                 ->options(fn () => Customer::query()

@@ -13,7 +13,15 @@ class ListProductOrders extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Új Termék Rendelés'),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Termék Rendelések';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Termék Rendelések';
     }
 }

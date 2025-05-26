@@ -76,17 +76,25 @@ class ProductFormSchema
                             ->label('Termék Kategória')
                             ->relationship('productCategory', 'name')
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->createOptionForm(\App\Forms\Schemas\ProductCategoryFormSchema::get())
+                            ->createOptionAction(function (\Filament\Forms\Components\Actions\Action $action) {
+                                return $action->modalHeading('Új kategória létrehozása');
+                            }),
 
                         // Self-referencing relation to an attached device
                         Forms\Components\Select::make('attached_device_id')
                             ->label('Csatolt Készülék')
-                            ->relationship('attachedDevice', 'name')
+                            ->relationship(
+                                name: 'attachedDevice',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn ($query) => $query->where('is_main_device', true)
+                            )
                             ->searchable()
                             ->preload(),
 
                         Forms\Components\Toggle::make('is_main_device')
-                            ->label('Fő készülék?'),
+                            ->label('Készülék?'),
                     ]),
 
                 Forms\Components\Section::make('Láthatóság és Beállítások')

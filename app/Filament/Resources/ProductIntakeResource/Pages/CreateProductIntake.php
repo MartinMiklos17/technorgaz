@@ -6,8 +6,8 @@ use App\Filament\Resources\ProductIntakeResource;
 use App\Models\Product;
 use App\Models\ProductIntakeItem;
 use Filament\Resources\Pages\CreateRecord;
-
-class CreateProductIntake extends CreateRecord
+use App\Filament\Pages\BaseCreateRecord;
+class CreateProductIntake extends BaseCreateRecord
 {
     protected static string $resource = ProductIntakeResource::class;
     public function getHeading(): string

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use App\Forms\Schemas\CompanyFormSchema;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -10,6 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Models\User;
+use App\Tables\Schemas\CompanyTableSchema;
 
 class CompanyRelationManager extends RelationManager
 {
@@ -20,35 +22,7 @@ class CompanyRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->label('Felhasználó')
-                    ->required()
-                    ->options(User::all()->pluck('name', 'id')->toArray())
-                    ->searchable(),
-                Forms\Components\TextInput::make('company_name')
-                    ->label('Cég neve')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_country')
-                    ->label('Ország')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_zip')
-                    ->label('Irányítószám')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_city')
-                    ->label('Város')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_address')
-                    ->label('Cím')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('company_taxnum')
-                    ->label('Adószám')
-                    ->required()
-                    ->maxLength(255),
+                ...CompanyFormSchema::get()
             ]);
     }
 
@@ -57,37 +31,10 @@ class CompanyRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('company_name')
-                    ->label('Cégnév')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_country')
-                    ->label('Ország')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_zip')
-                    ->label('Irszám')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_city')
-                    ->label('Város')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_address')
-                    ->label('Cím')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('company_taxnum')
-                    ->label('Adószám')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Létrehozva')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Módosítva')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...CompanyTableSchema::columns()
             ])
             ->filters([
-                //
+                ...CompanyTableSchema::filters()
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()

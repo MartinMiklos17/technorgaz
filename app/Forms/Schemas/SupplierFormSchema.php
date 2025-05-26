@@ -4,6 +4,9 @@ namespace App\Forms\Schemas;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use App\Enums\AccountType;
+use Illuminate\Support\Facades\Http;
+use App\Forms\Components\ZipLookupField;
+
 class SupplierFormSchema
 {
     public static function get(): array
@@ -38,10 +41,9 @@ class SupplierFormSchema
                     ]),
                 Forms\Components\Section::make('Cím')
                     ->schema([
-                        Forms\Components\TextInput::make('zip')
-                            ->label('Irsz')
+                        ZipLookupField::make('zip')
                             ->required()
-                            ->maxLength(20),
+                            ->cityField('city'),
                         Forms\Components\TextInput::make('city')
                             ->label('Város')
                             ->required()

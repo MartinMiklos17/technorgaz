@@ -105,9 +105,14 @@ class ProductOrderFormSchema
                             ])
                             ->columns(2)
                             ->addActionLabel('Termék hozzáadása')
-                            ->addAction(function (\Filament\Forms\Components\Actions\Action $action) {
-                                return $action->icon('heroicon-o-document-plus'); // pl. "plus" ikon hozzáadása
-                            })
+                            ->addAction(
+                                fn (\Filament\Forms\Components\Actions\Action $action) =>
+                                    $action
+                                        ->label('➕ Termék hozzáadása')
+                                        ->button()
+                                        ->color('success') // 'primary', 'success', 'danger', 'gray', stb.
+                                        ->size('lg')       // 'sm', 'md', 'lg'
+                            )
                             ->required(),
                     ]),
                 Step::make('Rendelés összesítése és elküldése')

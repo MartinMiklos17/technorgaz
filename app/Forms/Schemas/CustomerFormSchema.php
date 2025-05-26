@@ -4,6 +4,7 @@ namespace App\Forms\Schemas;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use App\Enums\AccountType;
+use App\Forms\Components\ZipLookupField;
 class CustomerFormSchema
 {
     public static function get(): array
@@ -23,8 +24,9 @@ class CustomerFormSchema
                     ->required()
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('billing_zip')->label("Számlázási Irányítószám")
+                ZipLookupField::make('billing_zip')->label("Számlázási Irányítószám")
                     ->required()
+                    ->cityField('billing_city')
                     ->maxLength(20)
                     ->default(null),
                 Forms\Components\TextInput::make('billing_city')->label("Számlázási Város")
@@ -66,8 +68,9 @@ class CustomerFormSchema
                     ->required()
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\TextInput::make('postal_zip')->label("Szállítási Irányítószám")
+                ZipLookupField::make('postal_zip')->label("Szállítási Irányítószám")
                     ->required()
+                    ->cityField('postal_city')
                     ->maxLength(20)
                     ->default(null),
                 Forms\Components\TextInput::make('postal_city')->label("Szállítási Város")

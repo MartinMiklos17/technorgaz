@@ -13,7 +13,15 @@ class ViewProductOrder extends ViewRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            Actions\EditAction::make()->label("Szerkesztés"),
         ];
+    }
+        public function getHeading(): string
+    {
+        return 'Termék Rendelés Megtekintése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Termék Rendelés Megtekintése';
     }
 }

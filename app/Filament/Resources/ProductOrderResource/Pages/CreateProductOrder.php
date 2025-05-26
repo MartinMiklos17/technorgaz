@@ -6,8 +6,8 @@ use App\Models\ProductOrder;
 use App\Filament\Resources\ProductOrderResource;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Mail;
-
-class CreateProductOrder extends CreateRecord
+use App\Filament\Pages\BaseCreateRecord;
+class CreateProductOrder extends BaseCreateRecord
 {
     protected static string $resource = ProductOrderResource::class;
     protected function afterCreate(): void

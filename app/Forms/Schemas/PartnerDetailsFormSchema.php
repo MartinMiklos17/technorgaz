@@ -46,12 +46,12 @@ class PartnerDetailsFormSchema
                         ->label('Teljes kivitelezés'),
 
                     Forms\Components\TextInput::make('gas_installer_license')
-                        ->label('Gázszerelő engedély')
+                        ->label('Gázszerelő igazolvány')
                         ->maxLength(255)
                         ->default(null),
 
                     Forms\Components\DatePicker::make('license_expiration')
-                    ->label('Engedély lejárata')
+                    ->label('Gázszerelő igazolvány lejárata')
                     ->required()
                     ->native(false),
 

@@ -46,12 +46,12 @@ class PartnerDetailsRelationManager extends RelationManager
                     ->required(),
 
                 TextInput::make('gas_installer_license')
-                    ->label('Gázszerelő engedély')
+                    ->label('Gázszerelő igazolvány')
                     ->maxLength(255)
                     ->default(null),
 
                 DatePicker::make('license_expiration')
-                    ->label('Engedély lejárata')
+                    ->label('Gázszerelő igazolvány lejárata')
                     ->native(false),
 
                 TextInput::make('contact_person')
@@ -109,11 +109,11 @@ class PartnerDetailsRelationManager extends RelationManager
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('gas_installer_license')
-                    ->label('Gázszerelő engedély')
+                    ->label('Gázszerelő igazolvány')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('license_expiration')
-                    ->label('Engedély lejárata')
+                    ->label('Gázszerelő igazolvány lejárata')
                     ->date()
                     ->sortable(),
 
