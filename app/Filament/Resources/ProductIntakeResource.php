@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use App\Forms\Components\ZipLookupField;
 use App\Forms\Schemas\ProductIntakeFormSchema;
+use App\Tables\Schemas\ProductIntakeTableSchema;
 
 class ProductIntakeResource extends Resource
 {
@@ -48,53 +49,16 @@ class ProductIntakeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('supplier.name')
-                    ->label('Beszállító')
-                    ->sortable()
-                    ->searchable(),
-
-                Tables\Columns\TextColumn::make('date')
-                    ->date()
-                    ->label('Dátum')
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('items_count')
-                    ->label('Tételek száma')
-                    ->counts('items') // auto relationship count
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('total_value')
-                    ->label('Összes érték (nettó)')
-                    ->getStateUsing(function ($record) {
-                        return $record->items->sum(fn ($item) => $item->quantity * $item->unit_price);
-                    })
-                    ->money('HUF') // vagy 'EUR', ha úgy használod
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('note')
-                    ->label('Megjegyzés')
-                    ->limit(30)
-                    ->tooltip(fn ($record) => $record->note)
-                    ->wrap(),
-
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                ...ProductIntakeTableSchema::columns()
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ...ProductIntakeTableSchema::actions()
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ...ProductIntakeTableSchema::bulkActions()
+            ])
+            ->filters([
+                ...ProductIntakeTableSchema::filters()
             ]);
     }
 

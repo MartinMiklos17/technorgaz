@@ -35,4 +35,12 @@ class CreateProductOrder extends BaseCreateRecord
         return [
         ];
     }
+        public function getHeading(): string
+    {
+        return 'Új Termék Rendelés';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Új Termék Rendelés';
+    }
 }
