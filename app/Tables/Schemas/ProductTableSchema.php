@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Filament\Forms\Components\Checkbox;
+use Filament\Tables\Actions\Action;
 
 class ProductTableSchema
 {
@@ -114,6 +115,11 @@ class ProductTableSchema
     public static function headerActions(): array
     {
         return [
+            Action::make('print_inventory_sheet')
+                ->label('Leltárív nyomtatása')
+                ->icon('heroicon-o-printer')
+                ->color('gray')
+                ->action(fn () => redirect()->route('inventory-sheet.download')),
         ];
     }
     public static function bulkActions(): array

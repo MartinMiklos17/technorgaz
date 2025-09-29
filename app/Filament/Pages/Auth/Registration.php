@@ -198,21 +198,24 @@ class Registration extends Register
                 )
                 ->extraAttributes(['class' => 'w-full'])
                 ->persistStepInQueryString()
-                ->submitAction(new HtmlString(Blade::render(<<<'BLADE'
-                    <x-filament::button
-                        type="submit"
-                        size="sm"
-                        wire:loading.attr="disabled"
-                        wire:loading.class="opacity-70 cursor-not-allowed"
-                        wire:target="
-                            register,
-                            data.gas_installer_license_front_image,
-                            data.gas_installer_license_back_image,
-                            data.flue_gas_analyzer_doc_image"
-                    >
-                        Regisztráció
-                    </x-filament::button>
-                BLADE
+                ->submitAction(
+                    new HtmlString(Blade::render(<<<'BLADE'
+                        <div wire:loading.remove wire:target="submit">
+                            <x-filament::button
+                                type="submit"
+                                size="sm"
+                                color="primary"
+                                wire:loading.attr="disabled"
+                                wire:loading.class="opacity-70 cursor-not-allowed"
+                            >
+                                Regisztráció!
+                            </x-filament::button>
+                        </div>
+
+                        <div wire:loading wire:target="submit">
+                            <x-filament::loading-indicator class="h-5 w-5" />
+                        </div>
+                    BLADE
                 ))),
             ]);
         }

@@ -20,7 +20,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\Registration;
 use Filament\Navigation\MenuItem;
 use Illuminate\Support\Facades\Auth;
-
+use Filament\FontProviders\GoogleFontProvider;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -41,6 +41,7 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->font('Montserrat', provider: GoogleFontProvider::class)
             ->brandName('Technorgaz')
             ->brandLogo(asset('images/logo.png'))
             ->brandLogoHeight('5rem')

@@ -50,6 +50,9 @@ class ProductResource extends Resource
             ->actions([
                 ...ProductTableSchema::actions()
             ])
+            ->headerActions([
+                ...ProductTableSchema::headerActions()
+            ])
             ->defaultSort('name', 'asc');
     }
 

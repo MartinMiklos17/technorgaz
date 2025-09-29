@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\CustomVerifyEmail;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Enums\AccountType;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -33,12 +34,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         static::saved(function (User $user) {
             if ($user->account_type !== null) {
+                // Kapcsolt modellek frissítése
                 $user->customer?->updateQuietly([
                     'account_type' => $user->account_type,
                 ]);
 
                 $user->partnerDetails?->updateQuietly([
                     'account_type' => $user->account_type,
+                ]);
+
+                // Csak akkor állítjuk be a flaget, ha service partner
+                $user->updateQuietly([
+                    'is_service_partner' => $user->account_type === AccountType::ServicePartner->value,
                 ]);
             }
         });

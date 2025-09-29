@@ -29,6 +29,12 @@ return [
     */
 
     'disks' => [
+        'private' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/private'),
+            'throw'  => false,
+            'visibility' => 'private',
+        ],
         'product_datasheets' => [
             'driver' => 'local',
             'root' => public_path('uploads/product_datasheets'),
