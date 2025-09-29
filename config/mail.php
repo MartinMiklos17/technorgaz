@@ -110,4 +110,6 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Technorgaz'),
     ],
 
+    'technorgaz_sales' => env('TECHNORGAS_SALES_EMAIL', null),
+
 ];

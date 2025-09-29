@@ -39,6 +39,15 @@ class MailchimpTransport extends AbstractTransport
         $htmlContent = $email->getHtmlBody();
         $to = $email->getTo()[0]->getAddress();
 
+        $attachments = [];
+
+        foreach ($email->getAttachments() as $attachment) {
+            $attachments[] = [
+                'type' => $attachment->getMediaType() . '/' . $attachment->getMediaSubtype(),
+                'name' => $attachment->getPreparedHeaders()->getHeaderParameter('Content-Disposition', 'filename'),
+                'content' => base64_encode($attachment->getBody()), // csak simán
+            ];
+        }
         $mailchimpMessage = [
             "from_email" => $from,
             "subject" => $subject,
@@ -48,7 +57,8 @@ class MailchimpTransport extends AbstractTransport
                     "email" => $to,
                     "type" => "to"
                 ]
-            ]
+                ],
+            "attachments" => $attachments,
         ];
 
         try {

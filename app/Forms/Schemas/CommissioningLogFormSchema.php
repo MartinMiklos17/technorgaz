@@ -78,25 +78,32 @@ class CommissioningLogFormSchema
                 ->icon('heroicon-m-table-cells')
                 ->schema([
                     Forms\Components\TextInput::make('customer_name')
+                        ->label('Név')
                         ->required()
                         ->maxLength(191),
                     Forms\Components\TextInput::make('customer_zip')
+                        ->label('Irsz')
                         ->maxLength(16)
                         ->default(null),
                     Forms\Components\TextInput::make('customer_city')
+                        ->label('Város')
                         ->maxLength(191)
                         ->default(null),
                     Forms\Components\TextInput::make('customer_street')
+                        ->label('Utca')
                         ->maxLength(191)
                         ->default(null),
                     Forms\Components\TextInput::make('customer_street_number')
+                        ->label('Házszám')
                         ->maxLength(32)
                         ->default(null),
                     Forms\Components\TextInput::make('customer_email')
+                        ->label('Email')
                         ->email()
                         ->maxLength(191)
                         ->default(null),
                     Forms\Components\TextInput::make('customer_phone')
+                        ->label('Telszám')
                         ->tel()
                         ->maxLength(64)
                         ->default(null),
