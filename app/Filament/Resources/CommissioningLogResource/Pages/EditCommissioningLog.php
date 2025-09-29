@@ -17,4 +17,12 @@ class EditCommissioningLog extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+    public function getHeading(): string
+    {
+        return 'Beüzemelési Napló szerkesztése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Beüzemelési Napló  szerkesztése';
+    }
 }

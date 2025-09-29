@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 class CommissioningLog extends Model
 {
     protected $table = 'commissioning_logs';
@@ -63,5 +64,20 @@ class CommissioningLog extends Model
     public function scopeBySerial($query, string $serial)
     {
         return $query->where('serial_number', $serial);
+    }
+    public function scopeVisibleTo(Builder $query, ?User $user = null): Builder
+    {
+        $u = $user ?? auth()->user();
+
+        // Ha nincs user (pl. konzol), ne szűrjünk.
+        if (! $u) {
+            return $query;
+        }
+
+        $isAdmin = method_exists($u, 'isAdmin') ? $u->isAdmin() : (bool) ($u->is_admin ?? false);
+
+        return $isAdmin
+            ? $query
+            : $query->where('created_by', $u->id);
     }
 }

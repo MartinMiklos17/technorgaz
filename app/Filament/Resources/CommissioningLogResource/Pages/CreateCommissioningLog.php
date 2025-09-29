@@ -19,7 +19,10 @@ class CreateCommissioningLog extends CreateRecord
 
     protected function afterCreate(): void
     {
+
         $log = $this->record;
+
+        $log->created_by=auth()->id();
 
         try {
             $disk = Storage::disk('private');
@@ -89,5 +92,19 @@ class CreateCommissioningLog extends CreateRecord
                 ->danger()
                 ->send();
         }
+    }
+    public function getHeading(): string
+    {
+        return 'Új Beüzemelési Napló';
+    }
+
+    public function getBreadcrumb(): string
+    {
+        return 'Új FájlBeüzemelési Napló';
+    }
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['created_by'] = auth()->id();
+        return $data;
     }
 }

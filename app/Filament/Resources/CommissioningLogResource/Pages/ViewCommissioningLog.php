@@ -16,4 +16,12 @@ class ViewCommissioningLog extends ViewRecord
             Actions\EditAction::make(),
         ];
     }
+    public function getHeading(): string
+    {
+        return 'Beüzemelési Napló Megtekintése';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Beüzemelési Napló Megtekitése';
+    }
 }

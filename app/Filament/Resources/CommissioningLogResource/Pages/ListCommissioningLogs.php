@@ -13,7 +13,15 @@ class ListCommissioningLogs extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label("Új Beüzemelési Napló"),
         ];
+    }
+    public function getHeading(): string
+    {
+        return 'Beüzemelési Naplók';
+    }
+    public function getBreadcrumb(): string
+    {
+        return 'Beüzemelési Naplók';
     }
 }
