@@ -84,14 +84,16 @@ class ProductFormSchema
 
                         // Self-referencing relation to an attached device
                         Forms\Components\Select::make('attached_device_id')
-                            ->label('Csatolt Készülék')
-                            ->relationship(
-                                name: 'attachedDevice',
-                                titleAttribute: 'name',
-                                modifyQueryUsing: fn ($query) => $query->where('is_main_device', true)
-                            )
+                            ->multiple(true)
+                            ->label('Csatolt Készülékek')
+                            ->options(function () {
+                                return Product::query()
+                                    ->where('is_main_device', true)
+                                    ->pluck('name', 'id');
+                            })
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->placeholder('Válassz több készüléket'),
 
                         Forms\Components\Toggle::make('is_main_device')
                             ->label('Készülék?'),

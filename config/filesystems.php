@@ -34,6 +34,7 @@ return [
             'root'   => storage_path('app/private'),
             'throw'  => false,
             'visibility' => 'private',
+            'url'    => '/files/private',
         ],
         'product_datasheets' => [
             'driver' => 'local',

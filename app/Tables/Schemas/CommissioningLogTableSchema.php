@@ -120,6 +120,15 @@ class CommissioningLogTableSchema
                 ->numeric()
                 ->sortable(),
 
+            Tables\Columns\IconColumn::make('correct_phase_connection')
+                ->label('Fázis helyes bekötés')
+                ->boolean(),
+
+            Tables\Columns\TextColumn::make('notes')
+                ->label('Megjegyzés')
+                ->limit(40)
+                ->toggleable(isToggledHiddenByDefault: true),
+
             Tables\Columns\TextColumn::make('created_at')
                 ->label('Létrehozva')
                 ->dateTime()

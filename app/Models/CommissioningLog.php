@@ -11,6 +11,7 @@ class CommissioningLog extends Model
     protected $table = 'commissioning_logs';
 
     protected $fillable = [
+        'sid',
         'serial_number',
 
         'customer_name',
@@ -32,9 +33,13 @@ class CommissioningLog extends Model
         'flue_gas_backflow',
         'gas_tight',
         'water_pressure',
+        'correct_phase_connection',
+        'notes',
+        'photo_paths',
 
         'pdf_path',
         'created_by',
+        'created_at',
     ];
 
     protected $casts = [
@@ -48,6 +53,8 @@ class CommissioningLog extends Model
         'co2_value'            => 'int',
         'co_value'             => 'int',
         'water_pressure'       => 'int',
+        'correct_phase_connection'  => 'bool',
+        'photo_paths'          => 'array',
     ];
 
     public function product(): BelongsTo
@@ -59,7 +66,10 @@ class CommissioningLog extends Model
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-
+    public function serviceReports()
+    {
+        return $this->hasMany(ServiceReport::class);
+    }
     /** Gyári szám gyors kereséséhez hasznos kis scope */
     public function scopeBySerial($query, string $serial)
     {

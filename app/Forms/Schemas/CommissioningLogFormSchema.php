@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Cache;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Textarea;
 
 class CommissioningLogFormSchema
 {
@@ -23,9 +25,6 @@ class CommissioningLogFormSchema
                 ->schema([
                     Forms\Components\TextInput::make('serial_number')
                         ->label('Gyári szám')
-                        ->required(),
-                    Forms\Components\Toggle::make('has_sludge_separator')
-                        ->label('Van iszapelválasztó')
                         ->required(),
                     Forms\Components\Select::make('product_id')
                         ->label('Készülék típusa')
@@ -43,19 +42,30 @@ class CommissioningLogFormSchema
                     Forms\Components\TextInput::make('burner_pressure')
                         ->label('Égőnyomás')
                         ->numeric()
-                        ->default(null),
+                        ->default(null)
+                        ->required(),
                     Forms\Components\TextInput::make('flue_gas_temperature')
                         ->label('Füstgáz hőmérséklet')
                         ->numeric()
-                        ->default(null),
+                        ->default(null)
+                        ->required(),
                     Forms\Components\TextInput::make('co2_value')
                         ->label('co2 érték')
                         ->numeric()
-                        ->default(null),
+                        ->default(null)
+                        ->required(),
                     Forms\Components\TextInput::make('co_value')
                         ->label('co érték')
                         ->numeric()
                         ->default(null),
+                    Forms\Components\TextInput::make('water_pressure')
+                        ->label('Víznyomás')
+                        ->numeric()
+                        ->default(null)
+                        ->required(),
+                    Forms\Components\Toggle::make('has_sludge_separator')
+                        ->label('Van iszapelválasztó')
+                        ->required(),
                     Forms\Components\Toggle::make('has_eu_wind_grille')
                         ->label('Eu-s szabvány szélráccsal rendelkezik?')
                         ->required(),
@@ -68,10 +78,10 @@ class CommissioningLogFormSchema
                     Forms\Components\Toggle::make('gas_tight')
                         ->label('Készülék gáz tömör')
                         ->required(),
-                    Forms\Components\TextInput::make('water_pressure')
-                        ->label('Víznyomás')
-                        ->numeric()
-                        ->default(null),
+                    Forms\Components\Toggle::make('correct_phase_connection')
+                        ->label('Fázis helyes bekötése')
+                        ->default(false)
+                        ->required(),
                 ])
                 ->columns(1),
                 Section::make('Vevő adatok')
@@ -108,6 +118,44 @@ class CommissioningLogFormSchema
                         ->maxLength(64)
                         ->default(null),
                 ]),
+                Section::make('Képek és megjegyzés')
+                ->schema([
+                    FileUpload::make('photo_paths')
+                        ->label('Képek (max. 3)')
+                        ->multiple()
+                        ->maxFiles(3)
+                        ->image()
+                        ->panelLayout('grid')
+                        ->imagePreviewHeight('150')
+                        ->disk('private')
+                        ->directory('commissioning_logs/tmp')
+                        ->preserveFilenames()
+                        ->openable()
+                        ->downloadable()
+                        ->deletable(true)
+                        ->reorderable()
+                        ->dehydrateStateUsing(fn ($state) =>
+                            array_values(
+                                array_slice(
+                                    array_map(fn ($p) => str_replace('\\', '/', $p), (array) $state),
+                                    0,
+                                    3
+                                )
+                            )
+                        ),
+
+                    Textarea::make('notes')->label('Megjegyzés')->rows(4),
+                ])
+                ->extraAttributes(['class' => 'max-w-[560px]']),
+                Section::make('Teszt – dátum beállítás')
+                    ->schema([
+                        DateTimePicker::make('created_at')
+                            ->label('Beüzemelési napló dátuma (created_at)')
+                            ->seconds(false)
+                            ->native(false)
+                            ->default(fn () => now())
+                            ->helperText('Teszthez módosítható. Ha üresen hagyod, az aktuális idő kerül mentésre.'),
+                    ]),
         ];
     }
 }

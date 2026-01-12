@@ -2,6 +2,7 @@
 
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Casts\AsArrayObject;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -49,6 +50,7 @@ class Product extends Model
         'show_in_webshop' => 'boolean',
         'show_in_spare_parts_list' => 'boolean',
         'is_main_device' => 'boolean',
+        'attached_device_id' => AsArrayObject::class,
     ];
 
     /**
@@ -63,17 +65,21 @@ class Product extends Model
      * Self-referencing relation to the "attached device."
      * This allows us to fetch the product that is attached to this one.
      */
-    public function attachedDevice()
+    public function attachedDevices()
     {
-        return $this->belongsTo(Product::class, 'attached_device_id');
+        return $this->belongsToMany(
+            Product::class,
+            table: null,
+            foreignPivotKey: null,
+            relatedPivotKey: null,
+            parentKey: 'id',
+            relatedKey: 'id'
+        )->whereIn('id', $this->attached_device_id ?? []);
     }
 
-    /**
-     * Optional: If you want to list all products that attach to this product,
-     * you can define a reverse hasMany relationship:
-     */
     public function attachedChildren()
     {
-        return $this->hasMany(Product::class, 'attached_device_id');
+        return Product::query()
+            ->whereJsonContains('attached_device_id', $this->id);
     }
 }
