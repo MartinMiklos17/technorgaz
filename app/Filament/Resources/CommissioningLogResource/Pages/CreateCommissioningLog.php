@@ -13,10 +13,17 @@ use App\Mail\CommissioningLogPdfToCustomer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Filament\Notifications\Notification;
 use App\Models\Product;
+use Livewire\Attributes\On;
 
 class CreateCommissioningLog extends CreateRecord
 {
     protected static string $resource = CommissioningLogResource::class;
+
+    #[On('serialNumberScanned')]
+    public function onSerialNumberScanned($value)
+    {
+        $this->data['serial_number'] = $value;
+    }
 
     public function getHeading(): string
     {

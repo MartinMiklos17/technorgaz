@@ -25,7 +25,15 @@ class CommissioningLogFormSchema
                 ->schema([
                     Forms\Components\TextInput::make('serial_number')
                         ->label('Gyári szám')
-                        ->required(),
+                        ->required()
+                        ->suffixAction(
+                            Forms\Components\Actions\Action::make('scan')
+                                ->icon('heroicon-m-qr-code')
+                                ->modalContent(view('filament.components.qr-scanner'))
+                                ->modalHeading('Kód beolvasása')
+                                ->modalSubmitAction(false)
+                                ->modalCancelAction(false)
+                        ),
                     Forms\Components\Select::make('product_id')
                         ->label('Készülék típusa')
                         ->options(fn () => Cache::remember('device_products_options', 3600, function () {
