@@ -17,7 +17,7 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use App\Filament\Pages\Registration;
+use App\Filament\Pages\Auth\Registration;
 use Filament\Navigation\MenuItem;
 use Illuminate\Support\Facades\Auth;
 use Filament\FontProviders\GoogleFontProvider;

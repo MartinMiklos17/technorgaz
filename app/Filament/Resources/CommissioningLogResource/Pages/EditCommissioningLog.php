@@ -15,6 +15,8 @@ class EditCommissioningLog extends EditRecord
     public function onSerialNumberScanned($value)
     {
         $this->data['serial_number'] = $value;
+
+        $this->unmountFormComponentAction();
     }
 
     protected function getHeaderActions(): array

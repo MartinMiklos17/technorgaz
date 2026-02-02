@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages;
+namespace App\Filament\Pages\Auth;
 
 use App\Models\Company;
 use App\Models\PartnerDetails;

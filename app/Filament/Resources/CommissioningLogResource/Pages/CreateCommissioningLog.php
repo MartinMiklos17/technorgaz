@@ -23,6 +23,8 @@ class CreateCommissioningLog extends CreateRecord
     public function onSerialNumberScanned($value)
     {
         $this->data['serial_number'] = $value;
+
+         $this->unmountFormComponentAction();
     }
 
     public function getHeading(): string
