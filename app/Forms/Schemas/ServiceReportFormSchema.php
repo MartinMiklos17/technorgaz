@@ -122,6 +122,14 @@ class ServiceReportFormSchema
                     ->placeholder('Kezdj gépelni és válassz a listából')
                     ->reactive()
                     ->live(debounce: 400)
+                    ->suffixAction(
+                        Forms\Components\Actions\Action::make('scan')
+                            ->icon('heroicon-m-qr-code')
+                            ->modalContent(view('filament.components.qr-scanner'))
+                            ->modalHeading('Kód beolvasása')
+                            ->modalSubmitAction(false)
+                            ->modalCancelAction(false)
+                    )
                     ->searchUsing(function (string $search) {
                         return CommissioningLog::query()
                             ->where('serial_number', 'like', "%{$search}%")
