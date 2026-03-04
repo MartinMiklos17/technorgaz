@@ -24,6 +24,24 @@ class ServiceReportTableSchema
                 ->searchable()
                 ->sortable(),
 
+            TextColumn::make('pdf_preview')
+                ->label('PDF megtekintés')
+                ->state(fn ($record) => 'Megnyitás')
+                ->url(fn ($record) => route('service-reports.pdf', $record))
+                ->openUrlInNewTab()
+                ->sortable(false)
+                ->icon('heroicon-o-eye')
+                ->badge(),
+
+            TextColumn::make('pdf_download')
+                ->label('PDF letöltés')
+                ->state(fn ($record) => 'Letöltés')
+                ->url(fn ($record) => route('service-reports.pdf.download', $record))
+                ->sortable(false)
+                ->icon('heroicon-o-arrow-down-tray')
+                ->badge()
+                ->color('success'),
+
             TextColumn::make('report_type')
                 ->label('Jegyzőkönyv típusa')
                 ->formatStateUsing(fn (string $state) => [

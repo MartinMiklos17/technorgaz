@@ -16,4 +16,13 @@ class CommissioningLogPdfController extends Controller
 
         return $pdf->stream($filename);
     }
+
+    public function download(Request $request, CommissioningLog $record)
+    {
+        $pdf = Pdf::loadView('pdf.commissioning_log', ['log' => $record]);
+
+        $filename = 'commissioning-log-' . $record->id . '.pdf';
+
+        return $pdf->download($filename);
+    }
 }

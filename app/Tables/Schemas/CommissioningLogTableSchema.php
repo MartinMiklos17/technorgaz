@@ -39,6 +39,15 @@ class CommissioningLogTableSchema
                 ->icon('heroicon-o-eye')
                 ->badge(),
 
+            Tables\Columns\TextColumn::make('pdf_download')
+                ->label('PDF letöltés')
+                ->state(fn ($record) => 'Letöltés')
+                ->url(fn ($record) => route('commissioning-logs.pdf.download', $record))
+                ->sortable(false)
+                ->icon('heroicon-o-arrow-down-tray')
+                ->badge()
+                ->color('success'),
+
             Tables\Columns\TextColumn::make('serial_number')
                 ->label('Gyári szám')
                 ->searchable()
