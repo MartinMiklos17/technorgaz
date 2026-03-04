@@ -4,9 +4,9 @@ namespace App\Filament\Resources\ProductOrderResource\Pages;
 
 use App\Filament\Resources\ProductOrderResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Pages\BaseEditRecord;
 
-class EditProductOrder extends EditRecord
+class EditProductOrder extends BaseEditRecord
 {
     protected static string $resource = ProductOrderResource::class;
 

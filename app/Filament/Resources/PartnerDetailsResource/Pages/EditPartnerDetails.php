@@ -4,9 +4,9 @@ namespace App\Filament\Resources\PartnerDetailsResource\Pages;
 
 use App\Filament\Resources\PartnerDetailsResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Pages\BaseEditRecord;
 
-class EditPartnerDetails extends EditRecord
+class EditPartnerDetails extends BaseEditRecord
 {
     protected static string $resource = PartnerDetailsResource::class;
 

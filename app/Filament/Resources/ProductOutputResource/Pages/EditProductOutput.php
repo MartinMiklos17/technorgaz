@@ -4,9 +4,9 @@ namespace App\Filament\Resources\ProductOutputResource\Pages;
 
 use App\Filament\Resources\ProductOutputResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Pages\BaseEditRecord;
 
-class EditProductOutput extends EditRecord
+class EditProductOutput extends BaseEditRecord
 {
     protected static string $resource = ProductOutputResource::class;
 

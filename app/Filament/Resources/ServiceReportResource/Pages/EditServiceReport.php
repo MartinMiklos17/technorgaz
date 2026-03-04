@@ -4,10 +4,10 @@ namespace App\Filament\Resources\ServiceReportResource\Pages;
 
 use Filament\Actions;
 use Illuminate\Support\Facades\Storage;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Pages\BaseEditRecord;
 use App\Filament\Resources\ServiceReportResource;
 
-class EditServiceReport extends EditRecord
+class EditServiceReport extends BaseEditRecord
 {
     protected static string $resource = ServiceReportResource::class;
     protected function afterSave(): void

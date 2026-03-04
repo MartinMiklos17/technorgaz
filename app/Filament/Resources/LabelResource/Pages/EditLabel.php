@@ -4,9 +4,9 @@ namespace App\Filament\Resources\LabelResource\Pages;
 
 use App\Filament\Resources\LabelResource;
 use App\Models\Label;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Pages\BaseEditRecord;
 
-class EditLabel extends EditRecord
+class EditLabel extends BaseEditRecord
 {
     protected static string $resource = LabelResource::class;
 

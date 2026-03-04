@@ -4,10 +4,10 @@ namespace App\Filament\Resources\CommissioningLogResource\Pages;
 
 use App\Filament\Resources\CommissioningLogResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use App\Filament\Pages\BaseEditRecord;
 use Livewire\Attributes\On;
 
-class EditCommissioningLog extends EditRecord
+class EditCommissioningLog extends BaseEditRecord
 {
     protected static string $resource = CommissioningLogResource::class;
 
