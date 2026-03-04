@@ -9,6 +9,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\DatePicker;
 
 use Filament\Forms\Get;
 use Filament\Forms\Components\Grid;
@@ -24,15 +27,20 @@ class LabelResource extends Resource
     protected static ?string $model = Label::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = 'Címkék';
     protected static ?string $navigationLabel = 'Címkék';
     protected static ?string $pluralModelLabel = 'Címkék';
+    protected static ?int $navigationSort = 1000;
     protected static ?string $modelLabel = 'Címke';
 
     public static function getEloquentQuery(): Builder
     {
         return parent::getEloquentQuery()->active();
     }
-
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
     public static function form(Form $form): Form
     {
         return $form->schema([
@@ -295,7 +303,7 @@ class LabelResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('date')->label('Dátum')->dateTime('Y-m-d H:i')->sortable(),
-                Tables\Columns\TextColumn::make('title')->label('Termék neve')->searchable(),
+                Tables\Columns\TextColumn::make('title')->label('Termék neve')->searchable()->sortable(),
                 Tables\Columns\TextColumn::make('type_text')->label('Típus')->sortable(),
             ])
             ->actions([
@@ -322,6 +330,34 @@ class LabelResource extends Resource
                     ->action(function (Label $record) {
                         $record->status = 100;
                         $record->save();
+                    }),
+            ])
+            ->filters([
+                SelectFilter::make('type')
+                    ->label('Típus')
+                    ->options(Label::TYPES),
+
+                Filter::make('title')
+                    ->label('Termék neve')
+                    ->form([
+                        TextInput::make('value')->label('Termék neve'),
+                    ])
+                    ->query(fn ($query, $data) =>
+                        $query->when($data['value'] ?? null, fn ($q, $value) =>
+                            $q->where('title', 'like', "%$value%")
+                        )
+                    ),
+
+                Filter::make('date')
+                    ->label('Dátum (tól-ig)')
+                    ->form([
+                        DatePicker::make('from')->label('Dátumtól'),
+                        DatePicker::make('until')->label('Dátumig'),
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        return $query
+                            ->when($data['from'] ?? null, fn ($q) => $q->whereDate('date', '>=', $data['from']))
+                            ->when($data['until'] ?? null, fn ($q) => $q->whereDate('date', '<=', $data['until']));
                     }),
             ]);
     }

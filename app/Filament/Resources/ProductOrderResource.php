@@ -21,7 +21,7 @@ class ProductOrderResource extends Resource
     protected static ?string $model = ProductOrder::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationGroup = 'Készletnyilvántartó';
+    protected static ?string $navigationGroup = 'Termékek';
     protected static ?int $navigationSort = 999;
     protected static ?string $pluralModelLabel   = 'Termék Rendelések';
     public static function getNavigationBadge(): ?string

@@ -23,16 +23,17 @@ class CompanyResource extends Resource
     protected static ?string $model = Company::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
-    protected static ?string $navigationGroup = 'Készletnyilvántartó';
+    protected static ?string $navigationGroup = 'Partnercégek';
     protected static ?int $navigationSort = 997;
     protected static ?string $pluralModelLabel = 'Cégek';
+    protected static bool $shouldRegisterNavigation = false;
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
     }
     public static function shouldRegisterNavigation(): bool
     {
-        return auth()->check() && auth()->user()->is_admin;
+        return false;
     }
 
     public static function form(Form $form): Form

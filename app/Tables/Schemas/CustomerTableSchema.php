@@ -10,6 +10,7 @@ use App\Enums\AccountType;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 class CustomerTableSchema
 {
     public static function columns(): array
@@ -17,28 +18,35 @@ class CustomerTableSchema
         return [
                 Tables\Columns\TextColumn::make('account_type')
                 ->label('Fiók típusa')
-                ->formatStateUsing(fn ($state) => AccountType::tryFrom($state)?->label() ?? '-'),
+                ->formatStateUsing(fn ($state) => AccountType::tryFrom($state)?->label() ?? '-')
+                ->sortable(),
 
                 Tables\Columns\TextColumn::make('billing_name')->label("Számlázási Név")
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('billing_address')->label("Számlázási Cím")
                     ->label('Számlázási cím')
                     ->getStateUsing(fn ($record) => "{$record->billing_zip} {$record->billing_city}, {$record->billing_street} {$record->billing_streetnumber}")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('postal_name')->label("Szállítási Név")
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('postal_address')->label("Szállítási Cím")
                     ->label('Szállítási cím')
                     ->getStateUsing(fn ($record) => "{$record->postal_zip} {$record->postal_city}, {$record->postal_street} {$record->postal_streetnumber}")
                     ->searchable(),
                 Tables\Columns\TextColumn::make('taxnumber')->label("Adószám")
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('contact_name')->label("Kontakt Név")
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('contact_email')->label("Email")
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('contact_phone')->label("Telefonszám")
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -52,6 +60,11 @@ class CustomerTableSchema
     public static function filters(): array
     {
         return [
+            SelectFilter::make('account_type')
+                ->label('Fiók típusa')
+                ->options(fn () => collect(AccountType::cases())->mapWithKeys(fn ($case) => [$case->value => $case->label()])->toArray())
+                ->searchable(),
+
             SelectFilter::make('billing_name')
                 ->label('Számlázási név')
                 ->options(fn () => Customer::query()

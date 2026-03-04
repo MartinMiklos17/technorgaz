@@ -20,7 +20,7 @@ class SupplierResource extends Resource
     protected static ?string $model = Supplier::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-square-3-stack-3d';
-    protected static ?string $navigationGroup = 'Készletnyilvántartó';
+    protected static ?string $navigationGroup = 'Partnercégek';
     protected static ?int $navigationSort = 998;
     protected static ?string $pluralModelLabel   = 'Beszállítók';
     public static function getNavigationBadge(): ?string

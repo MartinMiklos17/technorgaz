@@ -8,6 +8,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
 use Filament\Forms\Components\DatePicker;
+use Illuminate\Database\Eloquent\Builder;
 
 class ProductOrderTableSchema
 {
@@ -22,11 +23,13 @@ class ProductOrderTableSchema
             TextColumn::make('note')
                 ->label('Megjegyzés')
                 ->limit(50)
-                ->wrap(),
+                ->wrap()
+                ->sortable(),
 
             IconColumn::make('is_sent')
                 ->label('Elküldve')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             TextColumn::make('items.quantity')
                 ->label('Mennyiség')
@@ -66,6 +69,11 @@ class ProductOrderTableSchema
                         ->when($data['from'], fn ($q, $date) => $q->whereDate('date', '>=', $date))
                         ->when($data['until'], fn ($q, $date) => $q->whereDate('date', '<=', $date));
                 }),
+
+            Filter::make('is_sent')
+                ->toggle()
+                ->label('Csak elküldöttek')
+                ->query(fn (Builder $query): Builder => $query->where('is_sent', true)),
         ];
     }
 

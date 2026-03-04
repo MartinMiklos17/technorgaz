@@ -34,7 +34,7 @@ class ServiceReportResource extends Resource
             ->columns([...ServiceReportTableSchema::columns()
             ])
             ->filters([
-                //
+                ...ServiceReportTableSchema::filters()
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

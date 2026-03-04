@@ -8,6 +8,7 @@ use Filament\Forms\Components\DatePicker;
 use App\Models\Customer;
 use App\Models\User;
 use App\Models\Company;
+use App\Enums\AccountType;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
@@ -18,14 +19,18 @@ class UserTableSchema
         return [
                 Tables\Columns\TextColumn::make('account_type')
                 ->label('Fiók típusa')
-                ->formatStateUsing(fn ($state) => $state->label()),
+                ->formatStateUsing(fn ($state) => $state->label())
+                ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
+                    ->sortable()
                     ->label('Név'),
                 Tables\Columns\TextColumn::make('email')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('company.company_name')
                     ->searchable()
+                    ->sortable()
                     ->label('Kapcsolódó Cég Név'),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
@@ -48,6 +53,11 @@ class UserTableSchema
     public static function filters(): array
     {
         return [
+            SelectFilter::make('account_type')
+                ->label('Fiók típusa')
+                ->options(fn () => collect(AccountType::cases())->mapWithKeys(fn ($case) => [$case->value => $case->label()])->toArray())
+                ->searchable(),
+
             SelectFilter::make('name')
                 ->label('Név')
                 ->options(fn () => User::query()
@@ -106,6 +116,17 @@ class UserTableSchema
                 ->query(fn ($query, $data) =>
                     $query->when($data['value'] ?? null, fn ($q, $value) =>
                         $q->whereDate('updated_at', '>=', $value)
+                    )
+                ),
+
+            Filter::make('is_admin')
+                ->label('Admin')
+                ->form([
+                    Checkbox::make('value')->label('Csak adminok'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when(isset($data['value']) && $data['value'], fn ($q) =>
+                        $q->where('is_admin', true)
                     )
                 ),
         ];

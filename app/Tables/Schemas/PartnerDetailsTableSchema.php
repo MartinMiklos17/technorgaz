@@ -14,7 +14,8 @@ class PartnerDetailsTableSchema
         return [
 Tables\Columns\TextColumn::make('account_type')
                 ->label('Fiók típusa')
-                ->formatStateUsing(fn ($state) => $state->label()),
+                ->formatStateUsing(fn ($state) => $state->label())
+                ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label(__('Felhasználó'))
                     ->sortable()
@@ -27,15 +28,18 @@ Tables\Columns\TextColumn::make('account_type')
 
                 Tables\Columns\IconColumn::make('client_take')
                     ->label(__('Ügyeletet vállal?'))
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
 
                 Tables\Columns\IconColumn::make('complete_execution')
                     ->label(__('Teljes kivitelezés'))
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('gas_installer_license')
                     ->label(__('Gázszerelő igazolvány'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('license_expiration')
                     ->label(__('Gázszerelő igazolvány lejárata'))
@@ -44,15 +48,18 @@ Tables\Columns\TextColumn::make('account_type')
 
                 Tables\Columns\TextColumn::make('contact_person')
                     ->label(__('Kapcsolattartó'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('phone')
                     ->label(__('Telefonszám'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('location_address')
                     ->label(__('Cím'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('latitude')
                     ->label(__('Szélesség'))

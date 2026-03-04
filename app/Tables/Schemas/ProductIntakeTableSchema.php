@@ -57,7 +57,8 @@ class ProductIntakeTableSchema
                     ->label('Megjegyzés')
                     ->limit(30)
                     ->tooltip(fn ($record) => $record->note)
-                    ->wrap(),
+                    ->wrap()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

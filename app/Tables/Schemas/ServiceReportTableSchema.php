@@ -43,7 +43,8 @@ class ServiceReportTableSchema
 
             TextColumn::make('customer_name')
                 ->label('Ügyfél neve')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             IconColumn::make('warranty_valid')
                 ->label('Garancia érvényes?')

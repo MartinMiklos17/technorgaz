@@ -12,6 +12,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Illuminate\Database\Eloquent\Builder;
 use App\Models\User;
+use App\Models\Product;
 
 class CommissioningLogTableSchema
 {
@@ -40,39 +41,48 @@ class CommissioningLogTableSchema
 
             Tables\Columns\TextColumn::make('serial_number')
                 ->label('Gyári szám')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_name')
                 ->label('Vevő neve')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_zip')
                 ->label('Irányítószám')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_city')
                 ->label('Város')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_street')
                 ->label('Utca')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_street_number')
                 ->label('Házszám')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_email')
                 ->label('Vevő e-mail')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('customer_phone')
                 ->label('Vevő telefon')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
             Tables\Columns\IconColumn::make('has_sludge_separator')
                 ->label('Van iszapelválasztó')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('product.name')
                 ->label('Készülék típusa')
@@ -101,19 +111,23 @@ class CommissioningLogTableSchema
 
             Tables\Columns\IconColumn::make('has_eu_wind_grille')
                 ->label('EU szélrács')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             Tables\Columns\IconColumn::make('safety_devices_ok')
                 ->label('Biztonsági elemek működnek')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             Tables\Columns\IconColumn::make('flue_gas_backflow')
                 ->label('Füstgáz visszaáramlás')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             Tables\Columns\IconColumn::make('gas_tight')
                 ->label('Gáz tömör')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('water_pressure')
                 ->label('Víznyomás')
@@ -122,11 +136,13 @@ class CommissioningLogTableSchema
 
             Tables\Columns\IconColumn::make('correct_phase_connection')
                 ->label('Fázis helyes bekötés')
-                ->boolean(),
+                ->boolean()
+                ->sortable(),
 
             Tables\Columns\TextColumn::make('notes')
                 ->label('Megjegyzés')
                 ->limit(40)
+                ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
 
             Tables\Columns\TextColumn::make('created_at')
@@ -146,6 +162,114 @@ class CommissioningLogTableSchema
     public static function filters(): array
     {
         return [
+            SelectFilter::make('created_by')
+                ->label('Létrehozta')
+                ->options(fn () => User::query()->orderBy('name')->pluck('name', 'id')->toArray())
+                ->searchable(),
+
+            SelectFilter::make('product_id')
+                ->label('Készülék típusa')
+                ->options(fn () => Product::query()->orderBy('name')->pluck('name', 'id')->toArray())
+                ->searchable(),
+
+            Filter::make('serial_number')
+                ->label('Gyári szám')
+                ->form([
+                    TextInput::make('value')->label('Gyári szám'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('serial_number', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('customer_name')
+                ->label('Vevő neve')
+                ->form([
+                    TextInput::make('value')->label('Vevő neve'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('customer_name', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('customer_email')
+                ->label('Vevő e-mail')
+                ->form([
+                    TextInput::make('value')->label('Vevő e-mail'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('customer_email', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('customer_phone')
+                ->label('Vevő telefon')
+                ->form([
+                    TextInput::make('value')->label('Vevő telefon'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('customer_phone', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('customer_zip')
+                ->label('Irányítószám')
+                ->form([
+                    TextInput::make('value')->label('Irányítószám'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('customer_zip', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('customer_city')
+                ->label('Város')
+                ->form([
+                    TextInput::make('value')->label('Város'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('customer_city', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('customer_street')
+                ->label('Utca')
+                ->form([
+                    TextInput::make('value')->label('Utca'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->where('customer_street', 'like', "%$value%")
+                    )
+                ),
+
+            Filter::make('created_at')
+                ->label('Létrehozva ettől')
+                ->form([
+                    DatePicker::make('value')->label('Létrehozva ettől'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->whereDate('created_at', '>=', $value)
+                    )
+                ),
+
+            Filter::make('updated_at')
+                ->label('Módosítva ettől')
+                ->form([
+                    DatePicker::make('value')->label('Módosítva ettől'),
+                ])
+                ->query(fn ($query, $data) =>
+                    $query->when($data['value'] ?? null, fn ($q, $value) =>
+                        $q->whereDate('updated_at', '>=', $value)
+                    )
+                ),
         ];
     }
 

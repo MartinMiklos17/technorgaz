@@ -18,22 +18,28 @@ class CompanyTableSchema
         return [
             TextColumn::make('company_name')
                 ->label('Cég neve')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('company_country')
                 ->label('Ország')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('company_zip')
                 ->label('Irányítószám')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('company_city')
                 ->label('Város')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('company_address')
                 ->label('Cím')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('company_taxnum')
                 ->label('Adószám')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
             TextColumn::make('created_at')
                 ->label('Létrehozva')
                 ->dateTime()

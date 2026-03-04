@@ -188,6 +188,16 @@ class ProductOutputTableSchema
                 ->query(fn (Builder $query): Builder =>
                     $query->orWhereHas('items', fn ($q) => $q->where('is_vat_included', false))
                 ),
+
+            // Fizetési mód
+            SelectFilter::make('payment_method')
+                ->label('Fizetési mód')
+                ->options([
+                    'cash' => 'Készpénz',
+                    'card' => 'Bankkártya',
+                    'transfer' => 'Átutalás',
+                    'other' => 'Egyéb',
+                ]),
         ];
     }
     public static function actions(): array

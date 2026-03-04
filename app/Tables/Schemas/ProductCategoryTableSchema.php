@@ -13,7 +13,8 @@ class ProductCategoryTableSchema
         return [
                 Tables\Columns\TextColumn::make('name')
                     ->label(__('Elnevezés'))
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('short_description')
                     ->label(__('Rövid Leírás'))
                     ->numeric()
