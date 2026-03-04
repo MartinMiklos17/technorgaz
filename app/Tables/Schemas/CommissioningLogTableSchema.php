@@ -32,8 +32,8 @@ class CommissioningLogTableSchema
                 }),
             Tables\Columns\TextColumn::make('pdf_preview')
                 ->label('Beüzemelési napló (PDF)')
-                ->state(fn ($record) => $record->pdf_path ? 'Megnyitás' : '—')
-                ->url(fn ($record) => $record->pdf_path ? route('commissioning-logs.pdf', $record) : null)
+                ->state(fn ($record) => 'Megnyitás')
+                ->url(fn ($record) => route('commissioning-logs.pdf', $record))
                 ->openUrlInNewTab()
                 ->sortable(false)
                 ->icon('heroicon-o-eye')
