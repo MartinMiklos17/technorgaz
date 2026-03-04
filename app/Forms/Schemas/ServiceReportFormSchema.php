@@ -310,6 +310,7 @@ class ServiceReportFormSchema
 
                     TextInput::make('product_name')
                         ->label('Készülék típusa')
+                        ->disabled()
                         ->dehydrated(false)
                         ->afterStateHydrated(function ($state, Set $set, Get $get) {
                             if (!$state && $id = $get('product_id')) {
@@ -321,6 +322,7 @@ class ServiceReportFormSchema
                     Textarea::make('product_description')
                         ->label('Készülék leírás')
                         ->rows(3)
+                        ->disabled()
                         ->dehydrated(false)
                         ->afterStateHydrated(function ($state, Set $set, Get $get) {
                             if (!$state && $id = $get('product_id')) {
@@ -337,12 +339,12 @@ class ServiceReportFormSchema
                     Forms\Components\TextInput::make('co2_value')->label('co2 érték')->numeric()->default(null)->required(),
                     Forms\Components\TextInput::make('co_value')->label('co érték')->numeric()->default(null)->required(),
                     Forms\Components\TextInput::make('water_pressure')->label('Víznyomás')->numeric()->default(null)->required(),
-                    Forms\Components\Toggle::make('has_sludge_separator')->label('Van iszapelválasztó')->required(),
-                    Forms\Components\Toggle::make('has_eu_wind_grille')->label('Eu-s szabvány szélráccsal rendelkezik?')->required(),
-                    Forms\Components\Toggle::make('safety_devices_ok')->label('Biztonsági elemek működnek')->required(),
-                    Forms\Components\Toggle::make('flue_gas_backflow')->label('Füstgáz visszaáramlás')->required(),
-                    Forms\Components\Toggle::make('gas_tight')->label('Készülék gáz tömör')->required(),
-                    Forms\Components\Toggle::make('correct_phase_connection')->label('Fázis helyes bekötése')->default(false)->required(),
+                    Forms\Components\Radio::make('has_sludge_separator')->label('Van iszapelválasztó')->options([1 => 'Igen', 0 => 'Nem'])->inline()->required(),
+                    Forms\Components\Radio::make('has_eu_wind_grille')->label('Eu-s szabvány szélráccsal rendelkezik?')->options([1 => 'Igen', 0 => 'Nem'])->inline()->required(),
+                    Forms\Components\Radio::make('safety_devices_ok')->label('Biztonsági elemek működnek')->options([1 => 'Igen', 0 => 'Nem'])->inline()->required(),
+                    Forms\Components\Radio::make('flue_gas_backflow')->label('Füstgáz visszaáramlás')->options([1 => 'Igen', 0 => 'Nem'])->inline()->required(),
+                    Forms\Components\Radio::make('gas_tight')->label('Készülék gáz tömör')->options([1 => 'Igen', 0 => 'Nem'])->inline()->required(),
+                    Forms\Components\Radio::make('correct_phase_connection')->label('Fázis helyes bekötése')->options([1 => 'Igen', 0 => 'Nem'])->inline()->default(0)->required(),
                 ]),
 
             Section::make('Ügyfél adatai - CSAK VÁLTOZÁS ESETÉN TÖLTENI!')

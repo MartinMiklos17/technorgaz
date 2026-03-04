@@ -69,6 +69,7 @@ class ProductOutputFormSchema
                             'cash' => 'Készpénz',
                             'card' => 'Bankkártya',
                             'transfer' => 'Átutalás',
+                            'voucher' => 'Utalvány',
                             'other' => 'Egyéb',
                         ])
                         ->required(),
@@ -185,7 +186,20 @@ class ProductOutputFormSchema
                                 ->schema([
                                     Forms\Components\Toggle::make('is_vat_included')
                                         ->label('Áfát tartalmaz?')
-                                        ->default(false),
+                                        ->default(false)
+                                        ->reactive(),
+                                    Forms\Components\TextInput::make('invoice_number_temp')
+                                        ->label('Számlaszám')
+                                        ->visible(fn (callable $get) => $get('is_vat_included') === true)
+                                        ->dehydrated(false)
+                                        ->lazy()
+                                        ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                            if ($state) {
+                                                $currentNote = $get('../../note');
+                                                $prefix = $currentNote ? $currentNote . "\n" : '';
+                                                $set('../../note', $prefix . 'Számlaszám: ' . $state);
+                                            }
+                                        }),
                                     Forms\Components\Toggle::make('warranty')
                                         ->label('Garanciális termék')
                                         ->default(false)

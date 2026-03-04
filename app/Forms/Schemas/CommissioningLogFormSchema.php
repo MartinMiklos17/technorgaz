@@ -71,24 +71,36 @@ class CommissioningLogFormSchema
                         ->numeric()
                         ->default(null)
                         ->required(),
-                    Forms\Components\Toggle::make('has_sludge_separator')
+                    Forms\Components\Radio::make('has_sludge_separator')
                         ->label('Van iszapelválasztó')
+                        ->options([1 => 'Igen', 0 => 'Nem'])
+                        ->inline()
                         ->required(),
-                    Forms\Components\Toggle::make('has_eu_wind_grille')
+                    Forms\Components\Radio::make('has_eu_wind_grille')
                         ->label('Eu-s szabvány szélráccsal rendelkezik?')
+                        ->options([1 => 'Igen', 0 => 'Nem'])
+                        ->inline()
                         ->required(),
-                    Forms\Components\Toggle::make('safety_devices_ok')
+                    Forms\Components\Radio::make('safety_devices_ok')
                         ->label('Biztonsági elemek működnek')
+                        ->options([1 => 'Igen', 0 => 'Nem'])
+                        ->inline()
                         ->required(),
-                    Forms\Components\Toggle::make('flue_gas_backflow')
+                    Forms\Components\Radio::make('flue_gas_backflow')
                         ->label('Füstgáz visszaáramlás')
+                        ->options([1 => 'Igen', 0 => 'Nem'])
+                        ->inline()
                         ->required(),
-                    Forms\Components\Toggle::make('gas_tight')
+                    Forms\Components\Radio::make('gas_tight')
                         ->label('Készülék gáz tömör')
+                        ->options([1 => 'Igen', 0 => 'Nem'])
+                        ->inline()
                         ->required(),
-                    Forms\Components\Toggle::make('correct_phase_connection')
+                    Forms\Components\Radio::make('correct_phase_connection')
                         ->label('Fázis helyes bekötése')
-                        ->default(false)
+                        ->options([1 => 'Igen', 0 => 'Nem'])
+                        ->inline()
+                        ->default(0)
                         ->required(),
                 ])
                 ->columns(1),

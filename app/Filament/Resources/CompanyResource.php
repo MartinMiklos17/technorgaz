@@ -23,7 +23,8 @@ class CompanyResource extends Resource
     protected static ?string $model = Company::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-office';
-    protected static ?string $navigationGroup='Partnercégek';
+    protected static ?string $navigationGroup = 'Készletnyilvántartó';
+    protected static ?int $navigationSort = 997;
     protected static ?string $pluralModelLabel = 'Cégek';
     public static function getNavigationBadge(): ?string
     {

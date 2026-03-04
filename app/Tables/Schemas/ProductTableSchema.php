@@ -110,6 +110,7 @@ class ProductTableSchema
         return [
             Tables\Actions\ViewAction::make()->label('Részletek'),
             Tables\Actions\EditAction::make()->label('Szerkesztés'),
+            Tables\Actions\DeleteAction::make()->label('Törlés'),
         ];
     }
     public static function headerActions(): array
@@ -125,6 +126,8 @@ class ProductTableSchema
     public static function bulkActions(): array
     {
         return [
+            //delete action
+            Tables\Actions\DeleteBulkAction::make()->label('Törlés'),
         ];
     }
 }

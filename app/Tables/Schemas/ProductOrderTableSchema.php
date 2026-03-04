@@ -28,20 +28,23 @@ class ProductOrderTableSchema
                 ->label('Elküldve')
                 ->boolean(),
 
-            TextColumn::make('total_quantity')
-                ->label('Összes darab')
-                ->sortable(),
-            TextColumn::make('total_net_amount')
-                ->label('Nettó összesen')
-                ->money('HUF', locale: 'hu'),
+            TextColumn::make('items.quantity')
+                ->label('Mennyiség')
+                ->suffix(' db')
+                ->listWithLineBreaks()
+                ->limitList(3)
+                ->expandableLimitedList(),
+            TextColumn::make('items.product.item_number')
+                ->label('Cikkszám')
+                ->listWithLineBreaks()
+                ->limitList(3)
+                ->expandableLimitedList(),
 
-            TextColumn::make('total_vat_amount')
-                ->label('ÁFA összesen')
-                ->money('HUF', locale: 'hu'),
-
-            TextColumn::make('total_gross_amount')
-                ->label('Bruttó összesen')
-                ->money('HUF', locale: 'hu'),
+            TextColumn::make('items.product.name')
+                ->label('Termék')
+                ->listWithLineBreaks()
+                ->limitList(3)
+                ->expandableLimitedList(),
 
             TextColumn::make('created_at')
                 ->label('Létrehozva')

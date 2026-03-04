@@ -40,7 +40,10 @@ class CustomerResource extends Resource
                 ...CustomerFormSchema::get()
             ]);
     }
-
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
     public static function table(Table $table): Table
     {
         return $table
