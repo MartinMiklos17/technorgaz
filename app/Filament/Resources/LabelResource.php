@@ -50,7 +50,7 @@ class LabelResource extends Resource
             // =========================
             Section::make('Alapadatok')
                 ->schema([
-                    Grid::make(2)->schema([
+                    Grid::make(1)->schema([
 
                         Select::make('type')
                             ->label('Típus')
@@ -89,7 +89,7 @@ class LabelResource extends Resource
                     // ---- Címke adatok
                     Section::make('Címke adatok')
                         ->schema([
-                            Grid::make(2)->schema([
+                            Grid::make(1)->schema([
                                 TextInput::make('payload.a1')->label('Beszállító neve')->maxLength(255),
                                 TextInput::make('payload.a2')->label('Modellazonosító')->maxLength(255),
                                 TextInput::make('payload.a3')->label('Szezonális helyiségfűtési energiahatékonyság')->maxLength(50),
@@ -109,7 +109,7 @@ class LabelResource extends Resource
                     // ---- Adattábla adatok
                     Section::make('Adattábla adatok')
                         ->schema([
-                            Grid::make(2)->schema([
+                            Grid::make(1)->schema([
                                 TextInput::make('payload.b1')->label('Termék neve')->required()->maxLength(255),
                                 TextInput::make('payload.b8')->label('Termék alcíme')->maxLength(255),
                                 TextInput::make('payload.b2')->label('Készülékazonosító leírás')->maxLength(255),
@@ -132,7 +132,7 @@ class LabelResource extends Resource
 
                             Section::make('Hasznos hőteljesítmény')
                                 ->schema([
-                                    Grid::make(2)->schema([
+                                    Grid::make(1)->schema([
                                         TextInput::make('payload.c6')->label('Mért hőteljesítményen és magas hőmérsékleten')->suffix('kW')->maxLength(50),
                                         TextInput::make('payload.c7')->label('A mért hőtelj. 30%-án és alacsony hőmérsékleten')->suffix('kW')->maxLength(50),
                                     ]),
@@ -140,7 +140,7 @@ class LabelResource extends Resource
 
                             Section::make('Hatásfok')
                                 ->schema([
-                                    Grid::make(2)->schema([
+                                    Grid::make(1)->schema([
                                         TextInput::make('payload.c8')->label('Mért hőteljesítményen és magas hőmérsékleten')->suffix('%')->maxLength(50),
                                         TextInput::make('payload.c9')->label('A mért hőtelj. 30%-án és alacsony hőmérsékleten')->suffix('%')->maxLength(50),
                                     ]),
@@ -148,7 +148,7 @@ class LabelResource extends Resource
 
                             Section::make('Villamosenergia fogyasztás')
                                 ->schema([
-                                    Grid::make(2)->schema([
+                                    Grid::make(1)->schema([
                                         TextInput::make('payload.c10')->label('Terhelés alatt')->suffix('kW')->maxLength(50),
                                         TextInput::make('payload.c11')->label('Részterhelés alatt')->suffix('kW')->maxLength(50),
                                         TextInput::make('payload.c12')->label('Készenléti üzemmódban')->suffix('kW')->maxLength(50),
@@ -157,7 +157,7 @@ class LabelResource extends Resource
 
                             Section::make('Egyéb elemek')
                                 ->schema([
-                                    Grid::make(2)->schema([
+                                    Grid::make(1)->schema([
                                         TextInput::make('payload.c13')->label('Készenléti hőveszteség')->suffix('kW')->maxLength(50),
                                         TextInput::make('payload.c14')->label('Nitrogén-oxid-kibocsátás (csak gáz v. olaj)')->suffix('mg/kWh')->maxLength(50),
                                     ]),
@@ -188,7 +188,7 @@ class LabelResource extends Resource
                     // ---- Címke adatok
                     Section::make('Címke adatok')
                         ->schema([
-                            Grid::make(2)->schema([
+                            Grid::make(1)->schema([
                                 TextInput::make('payload.a1')->label('Beszállító neve')->maxLength(255),
                                 TextInput::make('payload.a2')->label('Modellazonosító')->maxLength(255),
                                 TextInput::make('payload.a3')->label('Energiahatékonysági mutató')->maxLength(50),
@@ -202,7 +202,7 @@ class LabelResource extends Resource
                     // ---- Adattábla adatok
                     Section::make('Adattábla adatok')
                         ->schema([
-                            Grid::make(2)->schema([
+                            Grid::make(1)->schema([
                                 TextInput::make('payload.b1')->label('Termék neve')->required()->maxLength(255),
 
                                 TextInput::make('payload.b3')
@@ -241,7 +241,7 @@ class LabelResource extends Resource
                                     3 => 'Közvetett fűtési képesség.',
                                 ]),
 
-                            Grid::make(2)->schema([
+                            Grid::make(1)->schema([
 
                                 Select::make('payload.c10')
                                     ->label('Tüzelőanyag típusának kiválasztása')
@@ -273,7 +273,7 @@ class LabelResource extends Resource
 
                             Section::make('Kiegészítő villamosenergia fogyasztás...')
                                 ->schema([
-                                    Grid::make(2)->schema([
+                                    Grid::make(1)->schema([
                                         TextInput::make('payload.c14')->label('Névleges hőteljesíményen')->suffix('kW')->maxLength(50),
                                         TextInput::make('payload.c15')->label('Minimális hőteljesítményen')->suffix('kW')->maxLength(50),
                                         TextInput::make('payload.c16')->label('Készenléti üzemmódban')->suffix('kW')->maxLength(50),

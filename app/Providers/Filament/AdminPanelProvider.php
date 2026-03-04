@@ -80,6 +80,10 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->renderHook(
+                'panels::head.end',
+                fn () => \Illuminate\Support\Facades\Blade::render("@vite('resources/css/app.css')")
+            )
+            ->renderHook(
                 'panels::body.end',
                 fn () => \Illuminate\Support\Facades\Blade::render("@vite('resources/js/app.js')")
             );
