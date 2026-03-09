@@ -70,6 +70,7 @@ class ProductOutputFormSchema
                             'card' => 'Bankkártya',
                             'transfer' => 'Átutalás',
                             'voucher' => 'Utalvány',
+                            'post' => 'Utánvét',
                             'other' => 'Egyéb',
                         ])
                         ->required(),
@@ -124,10 +125,10 @@ class ProductOutputFormSchema
                                 ->options([
                                     'purchase_price' => 'Beszerzési ár',
                                     'consumer_price' => 'Fogyasztói ár',
-                                    'service_price' => 'Szerviz ár',
+                                    'service_price' => 'Szervizes ár',
                                     'retail_price' => 'Kisker ár',
                                     'wholesale_price' => 'Nagyker ár',
-                                    'handover_price' => 'Átadáskori ár',
+                                    'handover_price' => 'Átadási ár',
                                     'service_partner_price' => 'Szervizpartner ár',
                                 ])
                                 ->reactive()
