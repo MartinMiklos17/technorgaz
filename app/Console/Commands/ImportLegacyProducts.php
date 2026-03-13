@@ -33,6 +33,14 @@ class ImportLegacyProducts extends Command
             ->where('c_type', 'category')
             ->get();
 
+        $defaultUserId = \App\Models\User::where('is_admin', 1)->value('id') ?? (\App\Models\User::first()->id ?? null);
+        $defaultCompanyId = \App\Models\Company::first()->id ?? null;
+
+        if (!$defaultUserId || !$defaultCompanyId) {
+            $this->error('No users or companies found! Please run the users migration first.');
+            return self::FAILURE;
+        }
+
         $categoryCount = 0;
 
         DB::beginTransaction();
@@ -44,8 +52,8 @@ class ImportLegacyProducts extends Command
                     [
                         'name'              => $cat->c_title,
                         'short_description' => $cat->c_desciption ?? null,
-                        'user_id'           => 21, // fix érték
-                        'company_id'        => 9,  // fix érték
+                        'user_id'           => $defaultUserId,
+                        'company_id'        => $defaultCompanyId,
                         'created_at'        => now(),
                         'updated_at'        => now(),
                     ]

@@ -1,0 +1,117 @@
+Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: 127.0.0.1:9003 (through xdebug.client_host/xdebug.client_port).
+Starting User migration...
+    0/2544 [>----]   0% < 1 ms
+In Connection.php line 838:
+                                                                    
+  [Illuminate\Database\UniqueConstraintViolationException (23000)]  
+  SQLSTATE[23000]: Integrit                                         
+  y constraint violation: 1                                         
+  062 Duplicate entry 'dupl                                         
+  icated_2168_feher.k.eszte                                         
+  r91@gmail.com' for key 'u                                         
+  sers_email_unique' (Conne                                         
+  ction: mysql, Host: 127.0                                         
+  .0.1, Port: 3306, Databas                                         
+  e: technorgaz, SQL: inser                                         
+  t into `users` (`id`, `na                                         
+  me`, `email`, `password`,                                         
+   `is_admin`, `account_typ                                         
+  e`, `created_at`, `update                                         
+  d_at`) values (2168, Czer                                         
+  uláné dr Fehér Krisztina                                          
+  Eszter, duplicated_2168_f                                         
+  eher.k.eszter91@gmail.com                                         
+  , $2y$12$Jd./.QNJ7xc20f5f                                         
+  GTvD9.Vp3eqgUl6dzYWC43qBh                                         
+  uIyTnjZhxFZ2, 0, consumer                                         
+  , 2023-10-29 19:43:53, 20                                         
+  23-10-29 19:43:53))                                               
+                                                                    
+
+Exception trace:
+  at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:838
+ Illuminate\Database\Connection->runQueryCallback() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+ Illuminate\Database\Connection->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+ Illuminate\Database\MySqlConnection->insert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+ Illuminate\Database\Query\Processors\MySqlProcessor->processInsertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4140
+ Illuminate\Database\Query\Builder->insertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2235
+ Illuminate\Database\Eloquent\Builder->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+ Illuminate\Database\Eloquent\Model->insertAndSetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+ Illuminate\Database\Eloquent\Model->performInsert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+ Illuminate\Database\Eloquent\Model->save() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\helpers.php:388
+ tap() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+ Illuminate\Database\Eloquent\Builder->create() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1959
+ Illuminate\Database\Eloquent\Builder->withSavepointIfNeeded() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->createOrFirst() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:712
+ Illuminate\Database\Eloquent\Builder->firstOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:740
+ Illuminate\Database\Eloquent\Builder->updateOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+ Illuminate\Database\Eloquent\Model->forwardCallTo() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2540
+ Illuminate\Database\Eloquent\Model->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2556
+ Illuminate\Database\Eloquent\Model::__callStatic() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyUsersCommand.php:83
+ App\Console\Commands\MigrateLegacyUsersCommand->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+ Illuminate\Container\BoundMethod::Illuminate\Container\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+ Illuminate\Container\Util::unwrapIfClosure() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+ Illuminate\Container\BoundMethod::callBoundMethod() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+ Illuminate\Container\BoundMethod::call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+ Illuminate\Container\Container->call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+ Illuminate\Console\Command->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Command\Command.php:341
+ Symfony\Component\Console\Command\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+ Illuminate\Console\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:1117
+ Symfony\Component\Console\Application->doRunCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:356
+ Symfony\Component\Console\Application->doRun() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:195
+ Symfony\Component\Console\Application->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:198
+ Illuminate\Foundation\Console\Kernel->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:1235
+ Illuminate\Foundation\Application->handleCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\artisan:16
+
+In MySqlConnection.php line 53:
+                             
+  [PDOException (23000)]     
+  SQLSTATE[23000]: Integrit  
+  y constraint violation: 1  
+  062 Duplicate entry 'dupl  
+  icated_2168_feher.k.eszte  
+  r91@gmail.com' for key 'u  
+  sers_email_unique'         
+                             
+
+Exception trace:
+  at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+ PDOStatement->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+ Illuminate\Database\MySqlConnection->Illuminate\Database\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+ Illuminate\Database\Connection->runQueryCallback() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+ Illuminate\Database\Connection->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+ Illuminate\Database\MySqlConnection->insert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+ Illuminate\Database\Query\Processors\MySqlProcessor->processInsertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4140
+ Illuminate\Database\Query\Builder->insertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2235
+ Illuminate\Database\Eloquent\Builder->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+ Illuminate\Database\Eloquent\Model->insertAndSetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+ Illuminate\Database\Eloquent\Model->performInsert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+ Illuminate\Database\Eloquent\Model->save() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\helpers.php:388
+ tap() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+ Illuminate\Database\Eloquent\Builder->create() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1959
+ Illuminate\Database\Eloquent\Builder->withSavepointIfNeeded() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->createOrFirst() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:712
+ Illuminate\Database\Eloquent\Builder->firstOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:740
+ Illuminate\Database\Eloquent\Builder->updateOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+ Illuminate\Database\Eloquent\Model->forwardCallTo() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2540
+ Illuminate\Database\Eloquent\Model->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2556
+ Illuminate\Database\Eloquent\Model::__callStatic() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyUsersCommand.php:83
+ App\Console\Commands\MigrateLegacyUsersCommand->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+ Illuminate\Container\BoundMethod::Illuminate\Container\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+ Illuminate\Container\Util::unwrapIfClosure() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+ Illuminate\Container\BoundMethod::callBoundMethod() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+ Illuminate\Container\BoundMethod::call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+ Illuminate\Container\Container->call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+ Illuminate\Console\Command->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Command\Command.php:341
+ Symfony\Component\Console\Command\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+ Illuminate\Console\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:1117
+ Symfony\Component\Console\Application->doRunCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:356
+ Symfony\Component\Console\Application->doRun() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:195
+ Symfony\Component\Console\Application->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:198
+ Illuminate\Foundation\Console\Kernel->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:1235
+ Illuminate\Foundation\Application->handleCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\artisan:16
+

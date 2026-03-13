@@ -1,0 +1,1 @@
+<?php require __DIR__.'/vendor/autoload.php'; require __DIR__.'/bootstrap/app.php'; \ = require_once __DIR__.'/bootstrap/app.php'; \ = \->make(Illuminate\Contracts\Console\Kernel::class); \->bootstrap(); try { \ = \Illuminate\Support\Facades\DB::connection('legacy')->table('user')->limit(1)->get(); print_r(\); } catch (\Exception \) { echo \->getMessage(); } 

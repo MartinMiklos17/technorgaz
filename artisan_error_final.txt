@@ -1,0 +1,204 @@
+Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: 127.0.0.1:9003 (through xdebug.client_host/xdebug.client_port).
+Starting User migration...
+    0/2544 [>---------------------]   0% < 1 ms
+    4/2544 [>---------------------]   0%    1 s
+    8/2544 [>---------------------]   0%    2 s
+   12/2544 [>---------------------]   0%    3 s
+   16/2544 [>---------------------]   0%    4 s
+   20/2544 [>---------------------]   0%    5 s
+   25/2544 [>---------------------]   0%    7 s
+   29/2544 [>---------------------]   1%    8 s
+   34/2544 [>---------------------]   1%    9 s
+   39/2544 [>---------------------]   1%   10 s
+   44/2544 [>---------------------]   1%   11 s
+   48/2544 [>---------------------]   1%   12 s
+   52/2544 [>---------------------]   2%   13 s
+   56/2544 [>---------------------]   2%   14 s
+   60/2544 [>---------------------]   2%   15 s
+   64/2544 [>---------------------]   2%   16 s
+   68/2544 [>---------------------]   2%   18 s
+   72/2544 [>---------------------]   2%   19 s
+   76/2544 [>---------------------]   2%   20 s
+   80/2544 [>---------------------]   3%   21 s
+   84/2544 [>---------------------]   3%   22 s
+   88/2544 [>---------------------]   3%   23 s
+   91/2544 [>---------------------]   3%   24 s
+   95/2544 [>---------------------]   3%   26 s
+   98/2544 [>---------------------]   3%   27 s
+  101/2544 [>---------------------]   3%   28 s
+  104/2544 [>---------------------]   4%   29 s
+  107/2544 [>---------------------]   4%   30 s
+  110/2544 [>---------------------]   4%   31 s
+  114/2544 [>---------------------]   4%   32 s
+  118/2544 [=>--------------------]   4%   34 s
+  121/2544 [=>--------------------]   4%   35 s
+  124/2544 [=>--------------------]   4%   36 s
+  126/2544 [=>--------------------]   4%   37 s
+  128/2544 [=>--------------------]   5%   38 s
+  131/2544 [=>--------------------]   5%   39 s
+  135/2544 [=>--------------------]   5%   40 s
+  139/2544 [=>--------------------]   5%   41 s
+  143/2544 [=>--------------------]   5%   43 s
+  147/2544 [=>--------------------]   5%   44 s
+  152/2544 [=>--------------------]   5%   45 s
+  157/2544 [=>--------------------]   6%   46 s
+  162/2544 [=>--------------------]   6%   47 s
+  167/2544 [=>--------------------]   6%   48 s
+  172/2544 [=>--------------------]   6%   49 s
+  177/2544 [=>--------------------]   6%   50 s
+  182/2544 [=>--------------------]   7%   51 s
+  187/2544 [=>--------------------]   7%   52 s
+  192/2544 [=>--------------------]   7%   53 s
+  197/2544 [=>--------------------]   7%   55 s
+  202/2544 [=>--------------------]   7%   56 s
+  207/2544 [=>--------------------]   8%   57 s
+  212/2544 [=>--------------------]   8%   58 s
+  217/2544 [=>--------------------]   8%   59 s
+  222/2544 [=>--------------------]   8%  1 min
+  227/2544 [=>----------------]   8% 1 min, 1 s
+  232/2544 [=>----------------]   9% 1 min, 2 s
+  237/2544 [=>----------------]   9% 1 min, 3 s
+  242/2544 [=>----------------]   9% 1 min, 5 s
+  247/2544 [=>----------------]   9% 1 min, 6 s
+  252/2544 [=>----------------]   9% 1 min, 7 s
+  255/2544 [=>----------------]  10% 1 min, 7 s
+  260/2544 [=>----------------]  10% 1 min, 8 s
+  265/2544 [=>---------------]  10% 1 min, 10 s
+  270/2544 [=>---------------]  10% 1 min, 11 s
+  275/2544 [=>---------------]  10% 1 min, 12 s
+  280/2544 [=>---------------]  11% 1 min, 13 s
+  285/2544 [=>---------------]  11% 1 min, 14 s
+  290/2544 [=>---------------]  11% 1 min, 15 s
+  295/2544 [=>---------------]  11% 1 min, 16 s
+  300/2544 [==>--------------]  11% 1 min, 17 s
+  305/2544 [==>--------------]  11% 1 min, 18 s
+  310/2544 [==>--------------]  12% 1 min, 19 s
+  315/2544 [==>--------------]  12% 1 min, 21 s
+  320/2544 [==>--------------]  12% 1 min, 22 s
+  325/2544 [==>--------------]  12% 1 min, 23 s
+  330/2544 [==>--------------]  12% 1 min, 24 s
+  335/2544 [==>--------------]  13% 1 min, 25 s
+  340/2544 [==>--------------]  13% 1 min, 26 s
+  345/2544 [==>--------------]  13% 1 min, 27 s
+  350/2544 [==>--------------]  13% 1 min, 28 s
+  355/2544 [==>--------------]  13% 1 min, 30 s
+  360/2544 [==>--------------]  14% 1 min, 31 s
+  365/2544 [==>--------------]  14% 1 min, 32 s
+  370/2544 [==>--------------]  14% 1 min, 33 s
+  375/2544 [==>--------------]  14% 1 min, 34 s
+  380/2544 [==>--------------]  14% 1 min, 35 s
+  384/2544 [==>--------------]  15% 1 min, 36 s
+  388/2544 [==>--------------]  15% 1 min, 37 s
+  391/2544 [==>--------------]  15% 1 min, 38 s
+  395/2544 [==>--------------]  15% 1 min, 39 s
+  399/2544 [==>--------------]  15% 1 min, 41 s
+  403/2544 [==>--------------]  15% 1 min, 42 s
+  408/2544 [==>--------------]  16% 1 min, 43 s
+  413/2544 [==>--------------]  16% 1 min, 44 s
+  418/2544 [==>--------------]  16% 1 min, 45 s
+In Connection.php line 838:
+                                                
+  [Illuminate\Database\QueryException (23000)]  
+  SQLSTATE[23000]: Integrity constraint viol    
+  ation: 1452 Cannot add or update a child r    
+  ow: a foreign key constraint fails (`techn    
+  orgaz`.`companies`, CONSTRAINT `companies_    
+  user_id_foreign` FOREIGN KEY (`user_id`) R    
+  EFERENCES `users` (`id`) ON DELETE CASCADE    
+  ) (Connection: mysql, Host: 127.0.0.1, Por    
+  t: 3306, Database: technorgaz, SQL: insert    
+   into `companies` (`company_name`, `user_i    
+  d`, `company_country`, `company_zip`, `com    
+  pany_city`, `company_address`, `company_ta    
+  xnum`, `updated_at`, `created_at`) values     
+  (Palotás Mihály, 397, HU, 6100, Kiskunféle    
+  gyháza, Béke u. 8. sz., 71206282-2-23, 202    
+  6-03-09 12:05:10, 2026-03-09 12:05:10))       
+                                                
+
+Exception trace:
+  at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:838
+ Illuminate\Database\Connection->runQueryCallback() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+ Illuminate\Database\Connection->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+ Illuminate\Database\MySqlConnection->insert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+ Illuminate\Database\Query\Processors\MySqlProcessor->processInsertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4140
+ Illuminate\Database\Query\Builder->insertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2235
+ Illuminate\Database\Eloquent\Builder->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+ Illuminate\Database\Eloquent\Model->insertAndSetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+ Illuminate\Database\Eloquent\Model->performInsert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+ Illuminate\Database\Eloquent\Model->save() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\helpers.php:388
+ tap() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+ Illuminate\Database\Eloquent\Builder->create() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1959
+ Illuminate\Database\Eloquent\Builder->withSavepointIfNeeded() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->createOrFirst() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:712
+ Illuminate\Database\Eloquent\Builder->firstOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+ Illuminate\Database\Eloquent\Model->forwardCallTo() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2540
+ Illuminate\Database\Eloquent\Model->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2556
+ Illuminate\Database\Eloquent\Model::__callStatic() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyUsersCommand.php:99
+ App\Console\Commands\MigrateLegacyUsersCommand->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+ Illuminate\Container\BoundMethod::Illuminate\Container\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+ Illuminate\Container\Util::unwrapIfClosure() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+ Illuminate\Container\BoundMethod::callBoundMethod() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+ Illuminate\Container\BoundMethod::call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+ Illuminate\Container\Container->call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+ Illuminate\Console\Command->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Command\Command.php:341
+ Symfony\Component\Console\Command\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+ Illuminate\Console\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:1117
+ Symfony\Component\Console\Application->doRunCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:356
+ Symfony\Component\Console\Application->doRun() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:195
+ Symfony\Component\Console\Application->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:198
+ Illuminate\Foundation\Console\Kernel->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:1235
+ Illuminate\Foundation\Application->handleCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\artisan:16
+
+In MySqlConnection.php line 53:
+                                              
+  [PDOException (23000)]                      
+  SQLSTATE[23000]: Integrity constraint viol  
+  ation: 1452 Cannot add or update a child r  
+  ow: a foreign key constraint fails (`techn  
+  orgaz`.`companies`, CONSTRAINT `companies_  
+  user_id_foreign` FOREIGN KEY (`user_id`) R  
+  EFERENCES `users` (`id`) ON DELETE CASCADE  
+  )                                           
+                                              
+
+Exception trace:
+  at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+ PDOStatement->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+ Illuminate\Database\MySqlConnection->Illuminate\Database\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+ Illuminate\Database\Connection->runQueryCallback() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+ Illuminate\Database\Connection->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+ Illuminate\Database\MySqlConnection->insert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+ Illuminate\Database\Query\Processors\MySqlProcessor->processInsertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4140
+ Illuminate\Database\Query\Builder->insertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2235
+ Illuminate\Database\Eloquent\Builder->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+ Illuminate\Database\Eloquent\Model->insertAndSetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+ Illuminate\Database\Eloquent\Model->performInsert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+ Illuminate\Database\Eloquent\Model->save() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\helpers.php:388
+ tap() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+ Illuminate\Database\Eloquent\Builder->create() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1959
+ Illuminate\Database\Eloquent\Builder->withSavepointIfNeeded() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->createOrFirst() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:712
+ Illuminate\Database\Eloquent\Builder->firstOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+ Illuminate\Database\Eloquent\Model->forwardCallTo() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2540
+ Illuminate\Database\Eloquent\Model->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2556
+ Illuminate\Database\Eloquent\Model::__callStatic() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyUsersCommand.php:99
+ App\Console\Commands\MigrateLegacyUsersCommand->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+ Illuminate\Container\BoundMethod::Illuminate\Container\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+ Illuminate\Container\Util::unwrapIfClosure() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+ Illuminate\Container\BoundMethod::callBoundMethod() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+ Illuminate\Container\BoundMethod::call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+ Illuminate\Container\Container->call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+ Illuminate\Console\Command->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Command\Command.php:341
+ Symfony\Component\Console\Command\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+ Illuminate\Console\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:1117
+ Symfony\Component\Console\Application->doRunCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:356
+ Symfony\Component\Console\Application->doRun() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:195
+ Symfony\Component\Console\Application->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:198
+ Illuminate\Foundation\Console\Kernel->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:1235
+ Illuminate\Foundation\Application->handleCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\artisan:16
+

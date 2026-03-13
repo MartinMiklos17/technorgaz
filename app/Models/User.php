@@ -42,11 +42,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 $user->partnerDetails?->updateQuietly([
                     'account_type' => $user->account_type,
                 ]);
-
-                // Csak akkor állítjuk be a flaget, ha service partner
-                $user->updateQuietly([
-                    'is_service_partner' => $user->account_type === AccountType::ServicePartner->value,
-                ]);
             }
         });
     }

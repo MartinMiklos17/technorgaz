@@ -1,0 +1,119 @@
+Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: 127.0.0.1:9003 (through xdebug.client_host/xdebug.client_port).
+Starting Customers and Suppliers migration...
+Migrating Customers...
+    0/1322 [>---------------------]   0% < 1 ms
+  133/1322 [==>-------------------]  10% < 1 ms
+  265/1322 [====>-----------------]  20% < 1 ms
+  397/1322 [======>---------------]  30% < 1 ms
+  529/1322 [========>-------------]  40% < 1 ms
+  661/1322 [===========>----------]  50% < 1 ms
+  794/1322 [=============>--------]  60%    1 s
+  926/1322 [===============>------]  70%    1 s
+ 1058/1322 [=================>----]  80%    1 s
+ 1190/1322 [===================>--]  90%    1 s
+ 1322/1322 [======================] 100%    1 s
+Migrating Suppliers...
+  0/18 [>-------------------------]   0% < 1 ms
+In Connection.php line 838:
+                                                
+  [Illuminate\Database\QueryException (HY000)]  
+  SQLSTATE[HY000]: General error: 1364 Field    
+   'streetnumber' doesn't have a default val    
+  ue (Connection: mysql, Host: 127.0.0.1, Po    
+  rt: 3306, Database: technorgaz, SQL: inser    
+  t into `suppliers` (`id`, `name`, `zip`, `    
+  city`, `street`, `taxnum`, `contact_name`,    
+   `email`, `phone`, `updated_at`, `created_    
+  at`) values (1, Technorgáz Kft. - Inárcs,     
+  2365, Inárcs, Bajcsy-Zsilinszky utca, 1244    
+  4768-2-13, Tomori László, szerviz@technorg    
+  az.hu, +36304088383, 2026-03-09 12:31:54,     
+  2026-03-09 12:31:54))                         
+                                                
+
+Exception trace:
+  at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:838
+ Illuminate\Database\Connection->runQueryCallback() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+ Illuminate\Database\Connection->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+ Illuminate\Database\MySqlConnection->insert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+ Illuminate\Database\Query\Processors\MySqlProcessor->processInsertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4140
+ Illuminate\Database\Query\Builder->insertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2235
+ Illuminate\Database\Eloquent\Builder->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+ Illuminate\Database\Eloquent\Model->insertAndSetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+ Illuminate\Database\Eloquent\Model->performInsert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+ Illuminate\Database\Eloquent\Model->save() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\helpers.php:388
+ tap() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+ Illuminate\Database\Eloquent\Builder->create() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1959
+ Illuminate\Database\Eloquent\Builder->withSavepointIfNeeded() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->createOrFirst() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:712
+ Illuminate\Database\Eloquent\Builder->firstOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:740
+ Illuminate\Database\Eloquent\Builder->updateOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+ Illuminate\Database\Eloquent\Model->forwardCallTo() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2540
+ Illuminate\Database\Eloquent\Model->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2556
+ Illuminate\Database\Eloquent\Model::__callStatic() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyCustomersCommand.php:93
+ App\Console\Commands\MigrateLegacyCustomersCommand->migrateSuppliers() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyCustomersCommand.php:37
+ App\Console\Commands\MigrateLegacyCustomersCommand->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+ Illuminate\Container\BoundMethod::Illuminate\Container\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+ Illuminate\Container\Util::unwrapIfClosure() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+ Illuminate\Container\BoundMethod::callBoundMethod() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+ Illuminate\Container\BoundMethod::call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+ Illuminate\Container\Container->call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+ Illuminate\Console\Command->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Command\Command.php:341
+ Symfony\Component\Console\Command\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+ Illuminate\Console\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:1117
+ Symfony\Component\Console\Application->doRunCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:356
+ Symfony\Component\Console\Application->doRun() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:195
+ Symfony\Component\Console\Application->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:198
+ Illuminate\Foundation\Console\Kernel->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:1235
+ Illuminate\Foundation\Application->handleCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\artisan:16
+
+In MySqlConnection.php line 53:
+                                              
+  [PDOException (HY000)]                      
+  SQLSTATE[HY000]: General error: 1364 Field  
+   'streetnumber' doesn't have a default val  
+  ue                                          
+                                              
+
+Exception trace:
+  at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+ PDOStatement->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:53
+ Illuminate\Database\MySqlConnection->Illuminate\Database\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:827
+ Illuminate\Database\Connection->runQueryCallback() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Connection.php:794
+ Illuminate\Database\Connection->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\MySqlConnection.php:42
+ Illuminate\Database\MySqlConnection->insert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Processors\MySqlProcessor.php:35
+ Illuminate\Database\Query\Processors\MySqlProcessor->processInsertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Query\Builder.php:4140
+ Illuminate\Database\Query\Builder->insertGetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:2235
+ Illuminate\Database\Eloquent\Builder->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1436
+ Illuminate\Database\Eloquent\Model->insertAndSetId() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1401
+ Illuminate\Database\Eloquent\Model->performInsert() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:1240
+ Illuminate\Database\Eloquent\Model->save() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1219
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\helpers.php:388
+ tap() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1218
+ Illuminate\Database\Eloquent\Builder->create() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->Illuminate\Database\Eloquent\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:1959
+ Illuminate\Database\Eloquent\Builder->withSavepointIfNeeded() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:725
+ Illuminate\Database\Eloquent\Builder->createOrFirst() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:712
+ Illuminate\Database\Eloquent\Builder->firstOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Builder.php:740
+ Illuminate\Database\Eloquent\Builder->updateOrCreate() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Support\Traits\ForwardsCalls.php:23
+ Illuminate\Database\Eloquent\Model->forwardCallTo() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2540
+ Illuminate\Database\Eloquent\Model->__call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Database\Eloquent\Model.php:2556
+ Illuminate\Database\Eloquent\Model::__callStatic() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyCustomersCommand.php:93
+ App\Console\Commands\MigrateLegacyCustomersCommand->migrateSuppliers() at C:\xampp\htdocs\Technorgaz\technorgaz\app\Console\Commands\MigrateLegacyCustomersCommand.php:37
+ App\Console\Commands\MigrateLegacyCustomersCommand->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:36
+ Illuminate\Container\BoundMethod::Illuminate\Container\{closure}() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Util.php:43
+ Illuminate\Container\Util::unwrapIfClosure() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:96
+ Illuminate\Container\BoundMethod::callBoundMethod() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php:35
+ Illuminate\Container\BoundMethod::call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Container\Container.php:799
+ Illuminate\Container\Container->call() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:211
+ Illuminate\Console\Command->execute() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Command\Command.php:341
+ Symfony\Component\Console\Command\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Console\Command.php:180
+ Illuminate\Console\Command->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:1117
+ Symfony\Component\Console\Application->doRunCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:356
+ Symfony\Component\Console\Application->doRun() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\symfony\console\Application.php:195
+ Symfony\Component\Console\Application->run() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php:198
+ Illuminate\Foundation\Console\Kernel->handle() at C:\xampp\htdocs\Technorgaz\technorgaz\vendor\laravel\framework\src\Illuminate\Foundation\Application.php:1235
+ Illuminate\Foundation\Application->handleCommand() at C:\xampp\htdocs\Technorgaz\technorgaz\artisan:16
+

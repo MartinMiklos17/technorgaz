@@ -82,6 +82,7 @@ class ProductOutputTableSchema
                         'cash' => 'Készpénz',
                         'card' => 'Bankkártya',
                         'transfer' => 'Átutalás',
+                        'cod'=>'Utánvét',
                         'other' => 'Egyéb',
                         default => 'Ismeretlen',
                     })

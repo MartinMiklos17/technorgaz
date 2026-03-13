@@ -70,7 +70,7 @@ class ProductOutputFormSchema
                             'card' => 'Bankkártya',
                             'transfer' => 'Átutalás',
                             'voucher' => 'Utalvány',
-                            'post' => 'Utánvét',
+                            'cod' => 'Utánvét',
                             'other' => 'Egyéb',
                         ])
                         ->required(),
